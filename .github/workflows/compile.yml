@@ -1,0 +1,48 @@
+name: Compile every sensor library with Margay and Okapi
+
+on:
+  push:
+    branches: [master]
+  schedule:
+    - cron: "17 6 * * 1"   # Mondays 06:17 UTC
+  workflow_dispatch:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: NW-Compile-Tests
+
+      # The libraries under test, checked out beside this repository (NW_WORKSPACE).
+      - name: Check out the Northern Widget libraries
+        run: |
+          set -e
+          for r in NW_Core Apis_Library Walrus_Library Haar_Library Libelle_Library Liasis_Library \
+                   T9602_Library MaxBotix_Library NW_BME280 Margay_Library Okapi_Library \
+                   DS3231_Logger MCP3421 MCP23018 MCP4725 TCA9534; do
+            git clone --depth 1 https://github.com/NorthernWidget/$r.git $r || echo "clone failed: $r"
+          done
+          git clone --depth 1 --branch Dev_I2C https://github.com/NorthernWidget-Skunkworks/Tally_Library.git Tally_Library || true
+          git clone --depth 1 https://github.com/greiman/SdFat.git SdFat
+
+      - uses: arduino/setup-arduino-cli@v2
+
+      - name: Install cores and third-party libraries
+        run: |
+          arduino-cli config init --overwrite
+          arduino-cli config add board_manager.additional_urls https://raw.githubusercontent.com/NorthernWidget/Arduino_Boards/master/package_NorthernWidget_index.json
+          arduino-cli core update-index
+          arduino-cli core install arduino:avr NorthernWidget:avr
+          arduino-cli lib install "Adafruit BME280 Library" "Adafruit Unified Sensor" "Adafruit BusIO" "Adafruit ADS1X15"
+
+      - name: Compile
+        env:
+          NW_WORKSPACE: ${{ github.workspace }}
+          EXTRA_LIBS: /home/runner/Arduino/libraries/Adafruit_BME280_Library:/home/runner/Arduino/libraries/Adafruit_Unified_Sensor:/home/runner/Arduino/libraries/Adafruit_BusIO:/home/runner/Arduino/libraries/Adafruit_ADS1X15
+        run: cd NW-Compile-Tests && ./compile.py
+
+      - name: Results
+        if: always()
+        run: cat NW-Compile-Tests/results.md

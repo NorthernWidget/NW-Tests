@@ -1,4 +1,4 @@
-name: Compile every sensor library with Margay and Okapi
+name: Harnesses and logger compiles for every NW library
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: NW-Compile-Tests
+          path: NW-Tests
 
       # The libraries under test, checked out beside this repository (NW_WORKSPACE).
       - name: Check out the Northern Widget libraries
@@ -26,6 +26,11 @@ jobs:
           done
           git clone --depth 1 --branch Dev_I2C https://github.com/NorthernWidget-Skunkworks/Tally_Library.git Tally_Library || true
           git clone --depth 1 https://github.com/greiman/SdFat.git SdFat
+
+      - name: Harnesses
+        env:
+          NW_WORKSPACE: ${{ github.workspace }}
+        run: cd NW-Tests && ./harness.py
 
       - uses: arduino/setup-arduino-cli@v2
 
@@ -41,8 +46,8 @@ jobs:
         env:
           NW_WORKSPACE: ${{ github.workspace }}
           EXTRA_LIBS: /home/runner/Arduino/libraries/Adafruit_BME280_Library:/home/runner/Arduino/libraries/Adafruit_Unified_Sensor:/home/runner/Arduino/libraries/Adafruit_BusIO:/home/runner/Arduino/libraries/Adafruit_ADS1X15
-        run: cd NW-Compile-Tests && ./compile.py
+        run: cd NW-Tests && ./compile.py
 
       - name: Results
         if: always()
-        run: cat NW-Compile-Tests/results.md
+        run: cat NW-Tests/results.md

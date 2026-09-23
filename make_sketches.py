@@ -25,7 +25,7 @@ LOGGERS = {
                    begin="Logger.begin(I2CVals, sizeof(I2CVals), header);", run="Logger.Run(update, updateRate);"),
 }
 
-TEMPLATE = """// {name} on the {logger} data logger: compile test (NW-Compile-Tests).
+TEMPLATE = """// {name} on the {logger} data logger: compile test (NW-Tests).
 // Same shape as the hand-written logger examples: the logger owns the loop and
 // calls update() every updateRate seconds; update() returns the sensor's CSV row.
 #include <{linclude}>

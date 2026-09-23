@@ -1,4 +1,4 @@
-// NW_BME280 on the Margay data logger: compile test (NW-Compile-Tests).
+// NW_BME280 on the Margay data logger: compile test (NW-Tests).
 // Same shape as the hand-written logger examples: the logger owns the loop and
 // calls update() every updateRate seconds; update() returns the sensor's CSV row.
 #include <Margay.h>

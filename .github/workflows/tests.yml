@@ -27,6 +27,11 @@ jobs:
           git clone --depth 1 --branch Dev_I2C https://github.com/NorthernWidget-Skunkworks/Tally_Library.git Tally_Library || true
           git clone --depth 1 https://github.com/greiman/SdFat.git SdFat
 
+      - name: Versions
+        env:
+          NW_WORKSPACE: ${{ github.workspace }}
+        run: cd NW-Tests && ./version_check.py
+
       - name: Harnesses
         env:
           NW_WORKSPACE: ${{ github.workspace }}

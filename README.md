@@ -14,7 +14,11 @@ The desktop harnesses in each library (`extras/test/`) prove a library's logic a
 ./harness.py                 # every library harness found in the workspace; exit 1 on any failure
 ./compile.py                 # every sketch; writes results.md and results.json; exit 1 on any failure
 ./compile.py --only Apis     # one sensor (both loggers)
+./version_check.py           # one version per library: library.properties vs. source constants, CITATION.cff, .zenodo.json, latest tag
+./style_check.py <repo>      # added code lines match the file they land in (run before every commit)
 ```
+
+**Versions.** `version_check.py` reads every place a library states its version and fails when two disagree, or when `library.properties` is behind the latest `v*` tag. The version in the source matters most: Margay writes its `LibVersion` into every status file's boot row, so a release that bumps `library.properties` alone would sign files with the old number.
 
 The runner compiles against the libraries checked out **beside this repository** (`NW_WORKSPACE`, default the parent directory) and points the Arduino sketchbook at an empty directory, so a stale copy in `~/Arduino/libraries` cannot hide a break. Third-party dependencies (Adafruit BME280, Unified Sensor, BusIO, ADS1X15) are taken from `~/Arduino/libraries/Adafruit_*` or `EXTRA_LIBS`. `ARDUINO_CLI` names the binary; by default the one on `PATH`, else the one bundled with Arduino IDE 2.
 

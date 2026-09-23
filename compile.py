@@ -23,7 +23,7 @@ CLI = os.environ.get("ARDUINO_CLI") or shutil.which("arduino-cli") or \
 FQBN = os.environ.get("FQBN", "NorthernWidget:avr:NW1284p")
 
 # Every library a sketch here may pull in, by workspace directory name.
-LIBRARIES = ["NW_Core", "Apis_Library", "Walrus_Library", "Haar_Library", "Libelle_Library", "Liasis_Library",
+LIBRARIES = ["NW_Core", "NW_Logger", "Apis_Library", "Walrus_Library", "Haar_Library", "Libelle_Library", "Liasis_Library",
              "T9602_Library", "MaxBotix_Library", "NW_BME280", "Tally_Library",
              "Margay_Library", "Okapi_Library", "DS3231_Logger", "MCP3421", "SdFat", "MCP23018", "MCP4725", "TCA9534"]
 extra = os.environ.get("EXTRA_LIBS")

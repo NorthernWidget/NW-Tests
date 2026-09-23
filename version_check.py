@@ -24,7 +24,7 @@ ROOT = Path(os.environ.get("NW_WORKSPACE", HERE.parent))
 
 # The maintained libraries, by workspace directory name (stale copies beside
 # them are not scanned).
-LIBRARIES = ["NW_Core", "Apis_Library", "Walrus_Library", "Haar_Library", "Libelle_Library", "Liasis_Library",
+LIBRARIES = ["NW_Core", "NW_Logger", "Apis_Library", "Walrus_Library", "Haar_Library", "Libelle_Library", "Liasis_Library",
              "T9602_Library", "MaxBotix_Library", "NW_BME280", "Tally_Library",
              "Margay_Library", "Okapi_Library", "DS3231_Logger", "MCP3421", "MCP23018"]
 

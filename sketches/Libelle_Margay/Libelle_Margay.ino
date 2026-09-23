@@ -7,7 +7,7 @@
 Margay Logger(MODEL_3v0);  // update to match your hardware version
 Libelle sensor;
 
-uint8_t I2CVals[] = {0x40};
+uint8_t I2CVals[] = {Libelle::DEFAULT_ADDRESS_UP};
 String header = "";
 uint32_t updateRate = 60;  // seconds between readings
 

@@ -2,16 +2,16 @@
  "date": "2026-09-23",
  "fqbn": "NorthernWidget:avr:NW1284p",
  "results": {
-  "T9602_Margay": {
+  "Libelle_Margay": {
    "ok": true,
-   "flash": 54358,
-   "ram": 2435,
+   "flash": 61344,
+   "ram": 2654,
    "error": ""
   },
-  "T9602_Okapi": {
+  "Libelle_Okapi": {
    "ok": true,
-   "flash": 52918,
-   "ram": 2184,
+   "flash": 60458,
+   "ram": 2401,
    "error": ""
   }
  }

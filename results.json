@@ -2,112 +2,16 @@
  "date": "2026-09-23",
  "fqbn": "NorthernWidget:avr:NW1284p",
  "results": {
-  "Apis_Margay": {
-   "ok": true,
-   "flash": 57884,
-   "ram": 2686,
-   "error": ""
-  },
-  "Apis_Okapi": {
-   "ok": true,
-   "flash": 55850,
-   "ram": 2328,
-   "error": ""
-  },
-  "Haar_Margay": {
-   "ok": true,
-   "flash": 58182,
-   "ram": 2749,
-   "error": ""
-  },
-  "Haar_Okapi": {
-   "ok": true,
-   "flash": 56146,
-   "ram": 2391,
-   "error": ""
-  },
-  "Liasis_Margay": {
-   "ok": true,
-   "flash": 53716,
-   "ram": 2345,
-   "error": ""
-  },
-  "Liasis_Okapi": {
-   "ok": true,
-   "flash": 52242,
-   "ram": 1987,
-   "error": ""
-  },
   "Libelle_Margay": {
    "ok": true,
-   "flash": 62066,
-   "ram": 2760,
+   "flash": 64252,
+   "ram": 2872,
    "error": ""
   },
   "Libelle_Okapi": {
    "ok": true,
-   "flash": 60626,
-   "ram": 2402,
-   "error": ""
-  },
-  "MaxBotix_Margay": {
-   "ok": false,
-   "flash": null,
-   "ram": null,
-   "error": "MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope"
-  },
-  "MaxBotix_Okapi": {
-   "ok": false,
-   "flash": null,
-   "ram": null,
-   "error": "MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope"
-  },
-  "NW_BME280_Margay": {
-   "ok": true,
-   "flash": 52852,
-   "ram": 2395,
-   "error": ""
-  },
-  "NW_BME280_Okapi": {
-   "ok": true,
-   "flash": 50882,
-   "ram": 2037,
-   "error": ""
-  },
-  "T9602_Margay": {
-   "ok": true,
-   "flash": 54936,
-   "ram": 2542,
-   "error": ""
-  },
-  "T9602_Okapi": {
-   "ok": true,
-   "flash": 52918,
-   "ram": 2184,
-   "error": ""
-  },
-  "Tally_Margay": {
-   "ok": true,
-   "flash": 53498,
-   "ram": 2313,
-   "error": ""
-  },
-  "Tally_Okapi": {
-   "ok": true,
-   "flash": 51470,
-   "ram": 1955,
-   "error": ""
-  },
-  "Walrus_Margay": {
-   "ok": true,
-   "flash": 57394,
-   "ram": 2628,
-   "error": ""
-  },
-  "Walrus_Okapi": {
-   "ok": true,
-   "flash": 55358,
-   "ram": 2270,
+   "flash": 62332,
+   "ram": 2484,
    "error": ""
   }
  }

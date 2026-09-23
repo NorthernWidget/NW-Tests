@@ -18,6 +18,9 @@ LIBRARIES = [
     ("Tally",     "Tally_I2C.h",  "Tally_I2C", "Tally_I2C::DEFAULT_ADDRESS", "",      "GetString()",     "GetHeader()"),
 ]
 
+# Libraries on NW_Core, whose sensors the Margay status file can watch (NW_Sensor).
+CORE_SENSORS = {"Apis", "Walrus", "Haar", "Libelle"}
+
 LOGGERS = {
     "Margay": dict(include="Margay.h", decl="Margay Logger(MODEL_3v0);  // update to match your hardware version",
                    begin="Logger.begin(I2CVals, sizeof(I2CVals), header);", run="Logger.run(update, updateRate);"),
@@ -40,7 +43,7 @@ uint32_t updateRate = 60;  // seconds between readings
 
 void setup() {{
     header = sensor.{hdr};
-    {lbegin}
+    {lbegin}{watch}
     initialize();
 }}
 
@@ -65,5 +68,6 @@ for name, header, cls, addr, bargs, s, h in LIBRARIES:
         (d / f"{name}_{logger}.ino").write_text(TEMPLATE.format(
             name=name, logger=logger, linclude=L["include"], header=header, ldecl=L["decl"], cls=cls,
             addr=addr, addrnote="" if addr else "  // no I2C address: the logger's bus test has nothing to check",
-            hdr=h, lbegin=L["begin"], lrun=L["run"], str=s, bargs=bargs))
+            hdr=h, lbegin=L["begin"], lrun=L["run"], str=s, bargs=bargs,
+            watch="\n    Logger.watch(sensor);  // its reports go to the status file" if (logger == "Margay" and name in CORE_SENSORS) else ""))
 print(f"{2*len(LIBRARIES)} sketches written")

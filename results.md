@@ -4,6 +4,6 @@ Board `NorthernWidget:avr:NW1284p`; libraries from `/home/awickert/Dropbox/North
 
 | Sensor | Margay | Okapi |
 |---|---|---|
-| Apis | ✅ 57282 / 2579 | ✅ 55810 / 2328 |
+| Apis | ✅ 57322 / 2579 | ✅ 55850 / 2328 |
 
 Working trees with uncommitted changes (compiled as they are): MaxBotix_Library

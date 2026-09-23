@@ -4,13 +4,13 @@
  "results": {
   "Apis_Margay": {
    "ok": true,
-   "flash": 57282,
+   "flash": 57322,
    "ram": 2579,
    "error": ""
   },
   "Apis_Okapi": {
    "ok": true,
-   "flash": 55810,
+   "flash": 55850,
    "ram": 2328,
    "error": ""
   }

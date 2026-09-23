@@ -23,6 +23,7 @@ def stats(lines):
     c = collections.Counter()
     for s in lines:
         if not s.strip() or s.lstrip().startswith('#'): continue   # preprocessor lines keep their own indent convention
+        if s.lstrip().startswith('*'): continue                     # a doc-comment continuation line (" * ...") is not code indentation
         m = re.match(r'^([ \t]+)', s)
         if m:
             ind = m.group(1)
@@ -47,7 +48,7 @@ def indent_unit(lines):
     smallest leading-space count seen at least three times (2 or 4)."""
     tabs = spaces = 0; widths = collections.Counter()
     for s in lines:
-        if s.lstrip().startswith('#'): continue
+        if s.lstrip().startswith('#') or s.lstrip().startswith('*'): continue
         m = re.match(r'^([ \t]+)\S', s)
         if not m: continue
         if '\t' in m.group(1): tabs += 1

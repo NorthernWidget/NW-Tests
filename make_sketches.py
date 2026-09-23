@@ -9,7 +9,7 @@ from pathlib import Path
 LIBRARIES = [
     ("Apis",      "Apis.h",       "Apis",      "Apis::DEFAULT_ADDRESS",      "",      "getString()",     "getHeader()"),
     ("Walrus",    "Walrus_I2C.h", "Walrus",    "Walrus::DEFAULT_ADDRESS",    "",      "getString()",     "getHeader()"),
-    ("Haar",      "Haar.h",       "Haar",      "0x42",                       "",      "getString()",     "getHeader()"),
+    ("Haar",      "Haar.h",       "Haar",      "Haar::DEFAULT_ADDRESS",      "",      "getString()",     "getHeader()"),
     ("Libelle",   "Libelle.h",    "Libelle",   "Libelle::DEFAULT_ADDRESS_UP", "",     "getString()",     "getHeader()"),
     ("Liasis",    "Liasis.h",     "Liasis",    "0x4A",                       "",      "getString()",     "getHeader()"),
     ("T9602",     "T9602.h",      "T9602",     "0x28",                       "",      "getString(true)", "getHeader()"),

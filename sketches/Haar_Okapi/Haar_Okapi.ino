@@ -7,7 +7,7 @@
 Okapi Logger;
 Haar sensor;
 
-uint8_t I2CVals[] = {0x42};
+uint8_t I2CVals[] = {Haar::DEFAULT_ADDRESS};
 String header = "";
 uint32_t updateRate = 60;  // seconds between readings
 

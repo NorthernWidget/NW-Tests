@@ -66,19 +66,24 @@ def removed_lines(repo, path, base):
     out = subprocess.run(['git', '-C', repo, 'diff', '-U0', base, '--', path], capture_output=True, text=True).stdout
     return [l[1:] for l in out.splitlines() if l.startswith('-') and not l.startswith('---')]
 
-def locally_matched(repo, path, base):
+def locally_matched(repo, path, base, unit='sp2'):
     """Added lines whose leading whitespace is of the same kind (tabs or spaces)
-    as the nearest unchanged line above them in the diff: a line added inside a
+    as the nearest unchanged line above them in the diff, and at that line's
+    depth or one indent unit deeper or shallower: a line added inside a
     function that already indents differently from the rest of its file matches
     its neighbours, which is the rule (match the surrounding lines; never
-    reformat what you do not touch)."""
+    reformat what you do not touch). A line at the wrong depth still fails."""
+    step = {'tab': 1, 'sp2': 2, 'sp4': 4}.get(unit, 2)
     out = subprocess.run(['git', '-C', repo, 'diff', '-U1', base, '--', path], capture_output=True, text=True).stdout
     def indent(line):
         m = re.match(r'^([ \t]+)\S', line); return m.group(1) if m else None
     matched, ctx, pending = [], None, []      # pending: added lines before any indented context in the hunk
+    def fits(a, ws):
+        ia = indent(a)
+        return bool(ws) and ('\t' in ia) == ('\t' in ws) and abs(len(ia) - len(ws)) in (0, step)
     def settle(ws):
         for a in pending:
-            if ws and ('\t' in indent(a)) == ('\t' in ws): matched.append(a)
+            if fits(a, ws): matched.append(a)
         pending.clear()
     for l in out.splitlines():
         if l.startswith('@@'): settle(None); ctx = None; continue
@@ -87,7 +92,7 @@ def locally_matched(repo, path, base):
             ws = indent(l[1:])
             if ws: ctx = ws; settle(ws)     # the first indented line below settles what came before it
         elif l.startswith('+') and indent(l[1:]):
-            if ctx and ('\t' in indent(l[1:])) == ('\t' in ctx): matched.append(l[1:])
+            if ctx and fits(l[1:], ctx): matched.append(l[1:])
             elif not ctx: pending.append(l[1:])
     settle(None)
     return matched
@@ -106,7 +111,7 @@ def check_repo(repo, base):
         old = old_text(repo, f, base)
         sa = stats(added)
         if old is not None:   # indent counts leave out lines that match their unchanged neighbour,
-            local = locally_matched(repo, f, base)   # and lines a modification merely re-added at the depth they had
+            local = locally_matched(repo, f, base, indent_unit(old))   # and lines a modification merely re-added at the depth they had
             si = stats([l for l in added if l not in local])
             sr_indent = stats(removed_lines(repo, f, base))
             for k in ('tab', 'sp2', 'sp4'): sa[k] = max(0, si[k] - sr_indent[k])

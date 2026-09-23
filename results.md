@@ -4,14 +4,14 @@ Board `NorthernWidget:avr:NW1284p`; libraries from `/home/awickert/Dropbox/North
 
 | Sensor | Margay | Okapi |
 |---|---|---|
-| Apis | ✅ 56894 / 2561 | ❌ Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared |
-| Haar | ✅ 53316 / 2248 | ❌ Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared |
-| Liasis | ✅ 53138 / 2238 | ❌ MCP23018/MCP23018.h:26:11: error: expected ',' or '...' before numeric constant |
-| Libelle | ✅ 54598 / 2358 | ❌ MCP23018/MCP23018.h:26:11: error: expected unqualified-id before numeric constant |
-| MaxBotix | ❌ MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope | ❌ Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared |
-| NW_BME280 | ✅ 52278 / 2288 | ❌ Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared |
-| T9602 | ✅ 52822 / 2216 | ❌ Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared |
-| Tally | ✅ 52922 / 2208 | ❌ Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared |
-| Walrus | ✅ 53048 / 2249 | ❌ Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared |
+| Apis | ✅ 56894 / 2561 | ✅ 55416 / 2310 |
+| Haar | ✅ 53316 / 2248 | ✅ 51876 / 1997 |
+| Liasis | ✅ 53138 / 2238 | ✅ 52242 / 1987 |
+| Libelle | ✅ 54598 / 2358 | ✅ 53700 / 2107 |
+| MaxBotix | ❌ MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope | ❌ MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope |
+| NW_BME280 | ✅ 52278 / 2288 | ✅ 50882 / 2037 |
+| T9602 | ✅ 52822 / 2216 | ✅ 51378 / 1965 |
+| Tally | ✅ 52922 / 2208 | ✅ 51470 / 1955 |
+| Walrus | ✅ 53048 / 2249 | ✅ 51620 / 1998 |
 
 Working trees with uncommitted changes (compiled as they are): MaxBotix_Library

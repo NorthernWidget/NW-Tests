@@ -9,10 +9,10 @@
    "error": ""
   },
   "Apis_Okapi": {
-   "ok": false,
-   "flash": null,
-   "ram": null,
-   "error": "Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared"
+   "ok": true,
+   "flash": 55416,
+   "ram": 2310,
+   "error": ""
   },
   "Haar_Margay": {
    "ok": true,
@@ -21,10 +21,10 @@
    "error": ""
   },
   "Haar_Okapi": {
-   "ok": false,
-   "flash": null,
-   "ram": null,
-   "error": "Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared"
+   "ok": true,
+   "flash": 51876,
+   "ram": 1997,
+   "error": ""
   },
   "Liasis_Margay": {
    "ok": true,
@@ -33,10 +33,10 @@
    "error": ""
   },
   "Liasis_Okapi": {
-   "ok": false,
-   "flash": null,
-   "ram": null,
-   "error": "MCP23018/MCP23018.h:26:11: error: expected ',' or '...' before numeric constant"
+   "ok": true,
+   "flash": 52242,
+   "ram": 1987,
+   "error": ""
   },
   "Libelle_Margay": {
    "ok": true,
@@ -45,10 +45,10 @@
    "error": ""
   },
   "Libelle_Okapi": {
-   "ok": false,
-   "flash": null,
-   "ram": null,
-   "error": "MCP23018/MCP23018.h:26:11: error: expected unqualified-id before numeric constant"
+   "ok": true,
+   "flash": 53700,
+   "ram": 2107,
+   "error": ""
   },
   "MaxBotix_Margay": {
    "ok": false,
@@ -60,7 +60,7 @@
    "ok": false,
    "flash": null,
    "ram": null,
-   "error": "Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared"
+   "error": "MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope"
   },
   "NW_BME280_Margay": {
    "ok": true,
@@ -69,10 +69,10 @@
    "error": ""
   },
   "NW_BME280_Okapi": {
-   "ok": false,
-   "flash": null,
-   "ram": null,
-   "error": "Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared"
+   "ok": true,
+   "flash": 50882,
+   "ram": 2037,
+   "error": ""
   },
   "T9602_Margay": {
    "ok": true,
@@ -81,10 +81,10 @@
    "error": ""
   },
   "T9602_Okapi": {
-   "ok": false,
-   "flash": null,
-   "ram": null,
-   "error": "Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared"
+   "ok": true,
+   "flash": 51378,
+   "ram": 1965,
+   "error": ""
   },
   "Tally_Margay": {
    "ok": true,
@@ -93,10 +93,10 @@
    "error": ""
   },
   "Tally_Okapi": {
-   "ok": false,
-   "flash": null,
-   "ram": null,
-   "error": "Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared"
+   "ok": true,
+   "flash": 51470,
+   "ram": 1955,
+   "error": ""
   },
   "Walrus_Margay": {
    "ok": true,
@@ -105,10 +105,10 @@
    "error": ""
   },
   "Walrus_Okapi": {
-   "ok": false,
-   "flash": null,
-   "ram": null,
-   "error": "Okapi_Library/src/Okapi.cpp:747:47: error: 'MCP23018::Ports' has not been declared"
+   "ok": true,
+   "flash": 51620,
+   "ram": 1998,
+   "error": ""
   }
  }
 }

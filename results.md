@@ -1,4 +1,4 @@
-# Compile results — 2026-09-23
+# Compile results — 2026-09-24
 
 Board `NorthernWidget:avr:NW1284p`; libraries from `/home/awickert/Dropbox/NorthernWidget/github`; sketchbook empty. Cells: flash B / RAM B, or the first error.
 
@@ -14,4 +14,4 @@ Board `NorthernWidget:avr:NW1284p`; libraries from `/home/awickert/Dropbox/North
 | Tally | ✅ 59624 / 2718 | ✅ 57510 / 2679 |
 | Walrus | ✅ 64574 / 3079 | ✅ 62482 / 3042 |
 
-Working trees with uncommitted changes (compiled as they are): MaxBotix_Library, Okapi_Library
+Working trees with uncommitted changes (compiled as they are): MaxBotix_Library

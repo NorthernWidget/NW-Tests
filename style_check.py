@@ -62,6 +62,10 @@ def added_lines(repo, path, base):
     out = subprocess.run(['git', '-C', repo, 'diff', '-U0', base, '--', path], capture_output=True, text=True).stdout
     return [l[1:] for l in out.splitlines() if l.startswith('+') and not l.startswith('+++')]
 
+def removed_lines(repo, path, base):
+    out = subprocess.run(['git', '-C', repo, 'diff', '-U0', base, '--', path], capture_output=True, text=True).stdout
+    return [l[1:] for l in out.splitlines() if l.startswith('-') and not l.startswith('---')]
+
 def locally_matched(repo, path, base):
     """Added lines whose leading whitespace is of the same kind (tabs or spaces)
     as the nearest unchanged line above them in the diff: a line added inside a
@@ -121,12 +125,17 @@ def check_repo(repo, base):
             problems.append((f, f"file indents by 4; {sa['sp2']} added lines sit at a 2-space depth"))
         if rules['indent'] == 'sp2' and sa['sp2'] == 0 and sa['sp4'] >= 6:
             print(f"warning: {os.path.basename(repo)}/{f}: file indents by 2 and all {sa['sp4']} added indented lines are multiples of 4; check they are nesting, not 4-space")
-        if rules['if'] and sa[{'if(': 'if (', 'if (': 'if('}[rules['if']]] > 0:
+        # A modified line keeps its own form: only the net increase in the other form counts
+        # (a line that already wrote `if (` and was edited for another reason is not a new `if (`).
+        sr = stats(removed_lines(repo, f, base)) if old is not None else collections.Counter()
+        if rules['if']:
             other = {'if(': 'if (', 'if (': 'if('}[rules['if']]
-            problems.append((f, f"file writes `{rules['if']}`; {sa[other]} added lines write `{other}`"))
-        if rules['comment'] and sa[{'//x': '// x', '// x': '//x'}[rules['comment']]] > 0:
+            net = sa[other] - sr[other]
+            if net > 0: problems.append((f, f"file writes `{rules['if']}`; {net} added lines write `{other}`"))
+        if rules['comment']:
             other = {'//x': '// x', '// x': '//x'}[rules['comment']]
-            problems.append((f, f"file comments as `{rules['comment']}`; {sa[other]} added lines comment as `{other}`"))
+            net = sa[other] - sr[other]
+            if net > 0: problems.append((f, f"file comments as `{rules['comment']}`; {net} added lines comment as `{other}`"))
     return problems
 
 def main():

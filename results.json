@@ -2,16 +2,16 @@
  "date": "2026-09-23",
  "fqbn": "NorthernWidget:avr:NW1284p",
  "results": {
-  "Haar_Margay": {
+  "Apis_Margay": {
    "ok": true,
-   "flash": 57458,
-   "ram": 2641,
+   "flash": 57282,
+   "ram": 2579,
    "error": ""
   },
-  "Haar_Okapi": {
+  "Apis_Okapi": {
    "ok": true,
-   "flash": 56000,
-   "ram": 2390,
+   "flash": 55810,
+   "ram": 2328,
    "error": ""
   }
  }

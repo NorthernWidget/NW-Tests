@@ -62,6 +62,32 @@ def added_lines(repo, path, base):
     out = subprocess.run(['git', '-C', repo, 'diff', '-U0', base, '--', path], capture_output=True, text=True).stdout
     return [l[1:] for l in out.splitlines() if l.startswith('+') and not l.startswith('+++')]
 
+def locally_matched(repo, path, base):
+    """Added lines whose leading whitespace is of the same kind (tabs or spaces)
+    as the nearest unchanged line above them in the diff: a line added inside a
+    function that already indents differently from the rest of its file matches
+    its neighbours, which is the rule (match the surrounding lines; never
+    reformat what you do not touch)."""
+    out = subprocess.run(['git', '-C', repo, 'diff', '-U1', base, '--', path], capture_output=True, text=True).stdout
+    def indent(line):
+        m = re.match(r'^([ \t]+)\S', line); return m.group(1) if m else None
+    matched, ctx, pending = [], None, []      # pending: added lines before any indented context in the hunk
+    def settle(ws):
+        for a in pending:
+            if ws and ('\t' in indent(a)) == ('\t' in ws): matched.append(a)
+        pending.clear()
+    for l in out.splitlines():
+        if l.startswith('@@'): settle(None); ctx = None; continue
+        if l.startswith(('+++', '---')): continue
+        if l.startswith(' '):
+            ws = indent(l[1:])
+            if ws: ctx = ws; settle(ws)     # the first indented line below settles what came before it
+        elif l.startswith('+') and indent(l[1:]):
+            if ctx and ('\t' in indent(l[1:])) == ('\t' in ctx): matched.append(l[1:])
+            elif not ctx: pending.append(l[1:])
+    settle(None)
+    return matched
+
 def old_text(repo, path, base):
     r = subprocess.run(['git', '-C', repo, 'show', f'{base}:{path}'], capture_output=True, text=True)
     return r.stdout.splitlines() if r.returncode == 0 else None
@@ -75,6 +101,10 @@ def check_repo(repo, base):
         if not added: continue
         old = old_text(repo, f, base)
         sa = stats(added)
+        if old is not None:   # indent counts leave out lines that match their unchanged neighbour
+            local = locally_matched(repo, f, base)
+            si = stats([l for l in added if l not in local])
+            for k in ('tab', 'sp2', 'sp4'): sa[k] = si[k]
         if old is None:                       # new file: the IDE convention
             rules = {'indent': 'sp2', 'if': 'if (', 'comment': '// x'}
             so = None

@@ -4,14 +4,26 @@
  "results": {
   "Haar_Margay": {
    "ok": true,
-   "flash": 53882,
-   "ram": 2282,
+   "flash": 57280,
+   "ram": 2641,
    "error": ""
   },
   "Haar_Okapi": {
    "ok": true,
-   "flash": 52414,
-   "ram": 2031,
+   "flash": 55822,
+   "ram": 2390,
+   "error": ""
+  },
+  "Walrus_Margay": {
+   "ok": true,
+   "flash": 56516,
+   "ram": 2520,
+   "error": ""
+  },
+  "Walrus_Okapi": {
+   "ok": true,
+   "flash": 55058,
+   "ram": 2269,
    "error": ""
   }
  }

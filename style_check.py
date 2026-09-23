@@ -105,10 +105,11 @@ def check_repo(repo, base):
         if not added: continue
         old = old_text(repo, f, base)
         sa = stats(added)
-        if old is not None:   # indent counts leave out lines that match their unchanged neighbour
-            local = locally_matched(repo, f, base)
+        if old is not None:   # indent counts leave out lines that match their unchanged neighbour,
+            local = locally_matched(repo, f, base)   # and lines a modification merely re-added at the depth they had
             si = stats([l for l in added if l not in local])
-            for k in ('tab', 'sp2', 'sp4'): sa[k] = si[k]
+            sr_indent = stats(removed_lines(repo, f, base))
+            for k in ('tab', 'sp2', 'sp4'): sa[k] = max(0, si[k] - sr_indent[k])
         if old is None:                       # new file: the IDE convention
             rules = {'indent': 'sp2', 'if': 'if (', 'comment': '// x'}
             so = None

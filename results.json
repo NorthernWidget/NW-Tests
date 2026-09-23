@@ -2,16 +2,16 @@
  "date": "2026-09-23",
  "fqbn": "NorthernWidget:avr:NW1284p",
  "results": {
-  "Walrus_Margay": {
+  "Haar_Margay": {
    "ok": true,
-   "flash": 53476,
-   "ram": 2255,
+   "flash": 53882,
+   "ram": 2282,
    "error": ""
   },
-  "Walrus_Okapi": {
+  "Haar_Okapi": {
    "ok": true,
-   "flash": 52008,
-   "ram": 2004,
+   "flash": 52414,
+   "ram": 2031,
    "error": ""
   }
  }

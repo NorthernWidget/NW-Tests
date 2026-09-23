@@ -2,28 +2,16 @@
  "date": "2026-09-23",
  "fqbn": "NorthernWidget:avr:NW1284p",
  "results": {
-  "Haar_Margay": {
+  "T9602_Margay": {
    "ok": true,
-   "flash": 57280,
-   "ram": 2641,
+   "flash": 54358,
+   "ram": 2435,
    "error": ""
   },
-  "Haar_Okapi": {
+  "T9602_Okapi": {
    "ok": true,
-   "flash": 55822,
-   "ram": 2390,
-   "error": ""
-  },
-  "Walrus_Margay": {
-   "ok": true,
-   "flash": 56516,
-   "ram": 2520,
-   "error": ""
-  },
-  "Walrus_Okapi": {
-   "ok": true,
-   "flash": 55058,
-   "ram": 2269,
+   "flash": 52918,
+   "ram": 2184,
    "error": ""
   }
  }

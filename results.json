@@ -4,50 +4,50 @@
  "results": {
   "Apis_Margay": {
    "ok": true,
-   "flash": 64916,
-   "ram": 3128,
+   "flash": 65144,
+   "ram": 3136,
    "error": ""
   },
   "Apis_Okapi": {
    "ok": true,
-   "flash": 57946,
-   "ram": 2393,
+   "flash": 63146,
+   "ram": 3099,
    "error": ""
   },
   "Haar_Margay": {
    "ok": true,
-   "flash": 65134,
-   "ram": 3192,
+   "flash": 65362,
+   "ram": 3200,
    "error": ""
   },
   "Haar_Okapi": {
    "ok": true,
-   "flash": 58148,
-   "ram": 2457,
+   "flash": 63270,
+   "ram": 3163,
    "error": ""
   },
   "Liasis_Margay": {
    "ok": true,
-   "flash": 59632,
-   "ram": 2738,
+   "flash": 59838,
+   "ram": 2746,
    "error": ""
   },
   "Liasis_Okapi": {
    "ok": true,
-   "flash": 52242,
-   "ram": 1987,
+   "flash": 58636,
+   "ram": 2709,
    "error": ""
   },
   "Libelle_Margay": {
    "ok": true,
-   "flash": 69144,
-   "ram": 3227,
+   "flash": 69350,
+   "ram": 3235,
    "error": ""
   },
   "Libelle_Okapi": {
    "ok": true,
-   "flash": 62690,
-   "ram": 2490,
+   "flash": 68156,
+   "ram": 3196,
    "error": ""
   },
   "MaxBotix_Margay": {
@@ -64,50 +64,50 @@
   },
   "NW_BME280_Margay": {
    "ok": true,
-   "flash": 58682,
-   "ram": 2790,
+   "flash": 58888,
+   "ram": 2798,
    "error": ""
   },
   "NW_BME280_Okapi": {
    "ok": true,
-   "flash": 50882,
-   "ram": 2037,
+   "flash": 56896,
+   "ram": 2761,
    "error": ""
   },
   "T9602_Margay": {
    "ok": true,
-   "flash": 60830,
-   "ram": 2935,
+   "flash": 61058,
+   "ram": 2943,
    "error": ""
   },
   "T9602_Okapi": {
    "ok": true,
-   "flash": 52918,
-   "ram": 2184,
+   "flash": 58980,
+   "ram": 2906,
    "error": ""
   },
   "Tally_Margay": {
    "ok": true,
-   "flash": 59396,
-   "ram": 2710,
+   "flash": 59624,
+   "ram": 2718,
    "error": ""
   },
   "Tally_Okapi": {
    "ok": true,
-   "flash": 51470,
-   "ram": 1955,
+   "flash": 57510,
+   "ram": 2679,
    "error": ""
   },
   "Walrus_Margay": {
    "ok": true,
-   "flash": 64346,
-   "ram": 3071,
+   "flash": 64574,
+   "ram": 3079,
    "error": ""
   },
   "Walrus_Okapi": {
    "ok": true,
-   "flash": 57360,
-   "ram": 2336,
+   "flash": 62482,
+   "ram": 3042,
    "error": ""
   }
  }

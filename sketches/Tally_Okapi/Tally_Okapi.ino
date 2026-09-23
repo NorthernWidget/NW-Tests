@@ -18,7 +18,7 @@ void setup() {
 }
 
 void loop() {
-    Logger.Run(update, updateRate);
+    Logger.run(update, updateRate);
 }
 
 String update() {

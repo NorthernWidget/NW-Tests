@@ -18,14 +18,14 @@ LIBRARIES = [
     ("Tally",     "Tally_I2C.h",  "Tally_I2C", "Tally_I2C::DEFAULT_ADDRESS", "",      "GetString()",     "GetHeader()"),
 ]
 
-# Libraries on NW_Core, whose sensors the Margay status file can watch (NW_Sensor).
+# Libraries on NW_Core, whose sensors a logger's status file can watch (NW_Sensor).
 CORE_SENSORS = {"Apis", "Walrus", "Haar", "Libelle"}
 
 LOGGERS = {
     "Margay": dict(include="Margay.h", decl="Margay Logger(MODEL_3v0);  // update to match your hardware version",
                    begin="Logger.begin(I2CVals, sizeof(I2CVals), header);", run="Logger.run(update, updateRate);"),
     "Okapi":  dict(include="Okapi.h",  decl="Okapi Logger;",
-                   begin="Logger.begin(I2CVals, sizeof(I2CVals), header);", run="Logger.Run(update, updateRate);"),
+                   begin="Logger.begin(I2CVals, sizeof(I2CVals), header);", run="Logger.run(update, updateRate);"),
 }
 
 TEMPLATE = """// {name} on the {logger} data logger: compile test (NW-Tests).
@@ -69,5 +69,5 @@ for name, header, cls, addr, bargs, s, h in LIBRARIES:
             name=name, logger=logger, linclude=L["include"], header=header, ldecl=L["decl"], cls=cls,
             addr=addr, addrnote="" if addr else "  // no I2C address: the logger's bus test has nothing to check",
             hdr=h, lbegin=L["begin"], lrun=L["run"], str=s, bargs=bargs,
-            watch="\n    Logger.watch(sensor);  // its reports go to the status file" if (logger == "Margay" and name in CORE_SENSORS) else ""))
+            watch="\n    Logger.watch(sensor);  // its reports go to the status file" if name in CORE_SENSORS else ""))
 print(f"{2*len(LIBRARIES)} sketches written")

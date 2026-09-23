@@ -14,11 +14,12 @@ uint32_t updateRate = 60;  // seconds between readings
 void setup() {
     header = sensor.getHeader();
     Logger.begin(I2CVals, sizeof(I2CVals), header);
+    Logger.watch(sensor);  // its reports go to the status file
     initialize();
 }
 
 void loop() {
-    Logger.Run(update, updateRate);
+    Logger.run(update, updateRate);
 }
 
 String update() {

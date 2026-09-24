@@ -19,7 +19,7 @@ jobs:
       - name: Check out the Northern Widget libraries
         run: |
           set -e
-          for r in NW_Core Apis_Library Walrus_Library Haar_Library Libelle_Library Liasis_Library \
+          for r in NW_Core NW_Logger Apis_Library Walrus_Library Haar_Library Libelle_Library Liasis_Library \
                    T9602_Library MaxBotix_Library NW_BME280 Margay_Library Okapi_Library \
                    DS3231_Logger MCP3421 MCP23018 MCP4725 TCA9534; do
             git clone --depth 1 https://github.com/NorthernWidget/$r.git $r || echo "clone failed: $r"

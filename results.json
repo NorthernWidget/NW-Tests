@@ -1,17 +1,17 @@
 {
- "date": "2026-09-24",
+ "date": "2026-09-30",
  "fqbn": "NorthernWidget:avr:NW1284p",
  "results": {
   "Apis_Margay": {
    "ok": true,
-   "flash": 65144,
-   "ram": 3136,
+   "flash": 67140,
+   "ram": 3403,
    "error": ""
   },
   "Apis_Okapi": {
    "ok": true,
-   "flash": 63146,
-   "ram": 3099,
+   "flash": 65142,
+   "ram": 3366,
    "error": ""
   },
   "Haar_Margay": {
@@ -100,14 +100,14 @@
   },
   "Walrus_Margay": {
    "ok": true,
-   "flash": 64574,
-   "ram": 3079,
+   "flash": 65226,
+   "ram": 3154,
    "error": ""
   },
   "Walrus_Okapi": {
    "ok": true,
-   "flash": 62482,
-   "ram": 3042,
+   "flash": 63134,
+   "ram": 3117,
    "error": ""
   }
  }

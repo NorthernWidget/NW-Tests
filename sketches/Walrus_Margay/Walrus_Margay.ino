@@ -12,6 +12,11 @@ String header = "";
 uint32_t updateRate = 60;  // seconds between readings
 
 void setup() {
+    // begin() first: the header depends on what the sensor says about itself.
+    // A Walrus whose Page 1 names no MS5803 converts nothing and reports its
+    // own ADC conversions instead, and getHeader() can only know that once it
+    // has read Page 1.
+    initialize();
     header = sensor.getHeader();
     Logger.begin(I2CVals, sizeof(I2CVals), header);
     Logger.watch(sensor);  // its reports go to the status file

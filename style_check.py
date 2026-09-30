@@ -80,8 +80,16 @@ def locally_matched(repo, path, base, unit='sp2'):
         m = re.match(r'^([ \t]+)\S', line); return m.group(1) if m else None
     matched, ctx, pending = [], None, []      # pending: added lines before any indented context in the hunk
     def fits(a, ws):
+        # One level is one character when the context is tabs, whatever the
+        # file's own unit is: a tab-indented function inside a space-indented
+        # file is exactly the case this function exists for.
         ia = indent(a)
-        return bool(ws) and ('\t' in ia) == ('\t' in ws) and abs(len(ia) - len(ws)) in (0, step)
+        if not ws:
+            return False
+        if ('\t' in ia) != ('\t' in ws):
+            return False
+        span = 1 if '\t' in ws else step
+        return abs(len(ia) - len(ws)) in (0, span)
     def settle(ws):
         for a in pending:
             if fits(a, ws): matched.append(a)

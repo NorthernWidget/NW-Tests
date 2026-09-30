@@ -29,4 +29,8 @@ String update() {
 
 void initialize() {
     sensor.begin();
+    // The MS5803's own conversions, Page 2 Block 3, served on every reading from
+    // firmware patch 2. Logged here so that the raw path is exercised end to
+    // end: a reading can be recomputed from them afterwards.
+    sensor.setADCColumns(true);
 }

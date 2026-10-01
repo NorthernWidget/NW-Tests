@@ -5,7 +5,10 @@ sensor's CSV string. Edit LIBRARIES and rerun; the sketches are committed so
 they read as plain examples."""
 from pathlib import Path
 
-# name, header, class, I2C address expression ('' = none, e.g. serial sensors), begin() args, string call, header call
+# name, header, class, I2C address expression ('' = none, e.g. serial sensors),
+# begin() args, string call, header call, and anything the sketch must set after
+# begin(). The last field is a dict of library name to the lines that follow
+# sensor.begin() inside initialize(), for a device whose columns are optional.
 LIBRARIES = [
     ("Apis",      "Apis.h",       "Apis",      "Apis::DEFAULT_ADDRESS",      "",      "getString()",     "getHeader()"),
     ("Walrus",    "Walrus_I2C.h", "Walrus",    "Walrus::DEFAULT_ADDRESS",    "",      "getString()",     "getHeader()"),
@@ -17,6 +20,17 @@ LIBRARIES = [
     ("NW_BME280", "NW_BME280.h",  "BME",       "0x76",                       "0x76",  "getString()",     "getHeader()"),
     ("Tally",     "Tally_I2C.h",  "Tally_I2C", "Tally_I2C::DEFAULT_ADDRESS", "",      "GetString()",     "GetHeader()"),
 ]
+
+# What a sketch sets after begin(), per library. A column a device can be asked
+# for and does not print by default belongs here rather than in a hand-edit of a
+# generated file, which the next run of this script would discard.
+AFTER_BEGIN = {
+    "Walrus": """
+    // The MS5803's own conversions, Page 2 Block 3, served on every reading from
+    // firmware patch 2. Logged here so that the raw path is exercised end to
+    // end: a reading can be recomputed from them afterwards.
+    sensor.setADCColumns(true);""",
+}
 
 # Libraries on NW_Core, whose sensors a logger's status file can watch (NW_Sensor).
 CORE_SENSORS = {"Apis", "Walrus", "Haar", "Libelle"}
@@ -42,9 +56,13 @@ String header = "";
 uint32_t updateRate = 60;  // seconds between readings
 
 void setup() {{
+    // begin() first: a device's header can depend on what begin() read from it.
+    // A Walrus whose Page 1 names no MS5803 converts nothing and reports its own
+    // ADC conversions instead, and getHeader() can only know that once Page 1 has
+    // been read. A file's header must mean the same thing for its whole life.
+    initialize();
     header = sensor.{hdr};
     {lbegin}{watch}
-    initialize();
 }}
 
 void loop() {{
@@ -57,7 +75,7 @@ String update() {{
 }}
 
 void initialize() {{
-    sensor.begin({bargs});
+    sensor.begin({bargs});{after}
 }}
 """
 
@@ -69,5 +87,6 @@ for name, header, cls, addr, bargs, s, h in LIBRARIES:
             name=name, logger=logger, linclude=L["include"], header=header, ldecl=L["decl"], cls=cls,
             addr=addr, addrnote="" if addr else "  // no I2C address: the logger's bus test has nothing to check",
             hdr=h, lbegin=L["begin"], lrun=L["run"], str=s, bargs=bargs,
+            after=AFTER_BEGIN.get(name, ""),
             watch="\n    Logger.watch(sensor);  // its reports go to the status file" if name in CORE_SENSORS else ""))
 print(f"{2*len(LIBRARIES)} sketches written")

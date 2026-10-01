@@ -12,10 +12,10 @@ String header = "";
 uint32_t updateRate = 60;  // seconds between readings
 
 void setup() {
-    // begin() before getHeader(): the header a device offers can depend on what
-    // begin() read from it, and a file's header must mean the same thing for its
-    // whole life. The Walrus sketch had this the other way round and chose its
-    // columns before Page 1 was read.
+    // begin() first: a device's header can depend on what begin() read from it.
+    // A Walrus whose Page 1 names no MS5803 converts nothing and reports its own
+    // ADC conversions instead, and getHeader() can only know that once Page 1 has
+    // been read. A file's header must mean the same thing for its whole life.
     initialize();
     header = sensor.getHeader();
     Logger.begin(I2CVals, sizeof(I2CVals), header);

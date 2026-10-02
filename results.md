@@ -1,10 +1,10 @@
-# Compile results — 2026-10-01
+# Compile results — 2026-10-02
 
 Board `NorthernWidget:avr:NW1284p`; libraries from `/home/awickert/Dropbox/NorthernWidget/github`; sketchbook empty. Cells: flash B / RAM B, or the first error.
 
 | Sensor | Margay | Okapi |
 |---|---|---|
-| Apis | ✅ 67372 / 3429 | ✅ 65374 / 3392 |
+| Apis | ✅ 68814 / 3087 | ✅ 66812 / 3048 |
 | Haar | ✅ 65362 / 3200 | ✅ 63270 / 3163 |
 | Liasis | ✅ 59838 / 2746 | ✅ 58636 / 2709 |
 | Libelle | ✅ 69350 / 3235 | ✅ 68156 / 3196 |

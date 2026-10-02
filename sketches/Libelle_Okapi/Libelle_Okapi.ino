@@ -20,6 +20,14 @@ void setup() {
     header = sensor.getHeader();
     Logger.begin(I2CVals, sizeof(I2CVals), header);
     Logger.watch(sensor);  // its reports go to the status file
+    // Section 14 step 3: the streamed header must equal the composed one.
+    String streamed = "";
+    NW_StringPrint headerSink(streamed);
+    Logger.printFileHeader(headerSink);
+    if (streamed != Logger.dataHeader()) {
+        Serial.print(F("HEADER MISMATCH: streamed="));
+        Serial.println(streamed);
+    }
 }
 
 void loop() {

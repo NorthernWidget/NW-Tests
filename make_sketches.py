@@ -42,6 +42,22 @@ LOGGERS = {
                    begin="Logger.begin(I2CVals, sizeof(I2CVals), header);", run="Logger.run(update, updateRate);"),
 }
 
+# LIBRARY-DESIGN.md section 14 step 3 gave the logger a second way to write the
+# header row: printFileHeader() walks the watched sensors instead of using the
+# String the sketch composed. The two must agree, and an unchanged transcript
+# would not prove it, because nothing else calls the new path yet. So the sketch
+# checks it and says nothing when they match: a mismatch is what moves a
+# recorded baseline. Only sketches that watch a sensor can make the comparison.
+HEADER_CHECK = """
+    // Section 14 step 3: the streamed header must equal the composed one.
+    String streamed = "";
+    NW_StringPrint headerSink(streamed);
+    Logger.printFileHeader(headerSink);
+    if (streamed != Logger.dataHeader()) {
+        Serial.print(F("HEADER MISMATCH: streamed="));
+        Serial.println(streamed);
+    }"""
+
 TEMPLATE = """// {name} on the {logger} data logger: compile test (NW-Tests).
 // Same shape as the hand-written logger examples: the logger owns the loop and
 // calls update() every updateRate seconds; update() returns the sensor's CSV row.
@@ -62,7 +78,7 @@ void setup() {{
     // been read. A file's header must mean the same thing for its whole life.
     initialize();
     header = sensor.{hdr};
-    {lbegin}{watch}
+    {lbegin}{watch}{headercheck}
 }}
 
 void loop() {{
@@ -88,5 +104,6 @@ for name, header, cls, addr, bargs, s, h in LIBRARIES:
             addr=addr, addrnote="" if addr else "  // no I2C address: the logger's bus test has nothing to check",
             hdr=h, lbegin=L["begin"], lrun=L["run"], str=s, bargs=bargs,
             after=AFTER_BEGIN.get(name, ""),
-            watch="\n    Logger.watch(sensor);  // its reports go to the status file" if name in CORE_SENSORS else ""))
+            watch="\n    Logger.watch(sensor);  // its reports go to the status file" if name in CORE_SENSORS else "",
+            headercheck=HEADER_CHECK if name in CORE_SENSORS else ""))
 print(f"{2*len(LIBRARIES)} sketches written")

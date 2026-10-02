@@ -18,6 +18,31 @@ import re, subprocess, sys, os, glob, collections
 
 WS = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CODE = re.compile(r'\.(ino|cpp|h|c)$')
+# A member declaration in a header: indented, no parentheses, ends in a semicolon.
+# `static const uint8_t MaxWatched = 8;` and `NW_Sensor* Watched[8];` both match.
+MEMBER = re.compile(r'^[ \t]+(?:(?:const|static|volatile|mutable|unsigned|signed)\s+)*'
+                    r'[A-Za-z_][\w:]*(?:\s*<[^>]*>)?[\s*&]+([A-Za-z_]\w*)\s*'
+                    r'(?:\[[^\]]*\])?\s*(?:=[^;]*)?;\s*(?://.*|/\*.*)?$')
+
+def names_exempt():
+    """Names a datasheet or schematic fixes, which the naming rule does not reach."""
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'style_names_exempt.txt')
+    if not os.path.exists(p): return set()
+    return {l.strip() for l in open(p) if l.strip() and not l.startswith('#')}
+
+def bad_member_names(added, exempt):
+    """Added member declarations whose name is neither _camelCase, camelCase nor ALL_CAPS."""
+    out = []
+    for l in added:
+        m = MEMBER.match(l.rstrip('\n'))
+        if not m: continue
+        n = m.group(1)
+        if n in exempt: continue
+        if n.upper() == n: continue              # ALL_CAPS: a constant, which is the convention
+        if n[0].islower() or n.startswith('_'): continue
+        out.append(n)
+    return out
+
 
 def stats(lines):
     c = collections.Counter()
@@ -147,6 +172,13 @@ def check_repo(repo, base):
             other = {'if(': 'if (', 'if (': 'if('}[rules['if']]
             net = sa[other] - sr[other]
             if net > 0: problems.append((f, f"file writes `{rules['if']}`; {net} added lines write `{other}`"))
+        # Naming migrates forward: a capitalised member is the older convention and is
+        # not preserved by matching the file. See the naming rules in RELEASING.md.
+        if f.endswith('.h'):
+            for n in bad_member_names(added, names_exempt()):
+                problems.append((f, f"member `{n}` is capitalised; members take _camelCase "
+                                    f"(ALL_CAPS for a constant, or add it to style_names_exempt.txt "
+                                    f"if a datasheet or schematic fixes the name)"))
         if rules['comment']:
             other = {'//x': '// x', '// x': '//x'}[rules['comment']]
             net = sa[other] - sr[other]

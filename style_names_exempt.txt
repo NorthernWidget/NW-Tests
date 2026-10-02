@@ -1,0 +1,24 @@
+# Names exempt from the member-naming rule, because they are taken from a
+# datasheet or a schematic and the correspondence to that document outranks the
+# convention (Andy, 2026-10-02). One name per line. Amend this file rather than
+# working around the check.
+#
+# Margay and Okapi board signals
+SD_CD
+SD_CS
+I2C_SW
+I2C_ADR
+I2C_ADR_OB
+WDHold
+RTCInt
+ExtInt_count
+BlueLED
+GreenLED
+RedLED
+AuxLED
+ThermSense_Pin
+VRef_Pin
+ADC_Sense_SW
+# MS5803 and LiDAR-Lite register and coefficient names
+COEF0
+ACQ_COMMAND

@@ -21,6 +21,7 @@ python3 style_check.py <repo> # gate every commit touching .ino/.cpp/.h on this
 
 - The expected counts above are the acceptance criterion. A number that moves is either a regression or a fact to record here, never something to shrug at.
 - `make_sketches.py` generates the sketches from a table; edit the table, not the generated sketches. A hand-edit of a generated sketch survives until the next run and then vanishes, which is how `setADCColumns(true)` nearly left the Walrus sketch on 2026-10-01: configuration a sketch must make after `begin()` goes in `AFTER_BEGIN`, keyed by library.
+- **Both ways of reaching a sensor are tested, and against each other.** A sketch either programs its sensors with `Logger.watch()` or lets `Logger.discover()` take them from the bus, and the suite carries one of each (Andy, 2026-10-03). The acceptance test is that on the same bus they **agree**: a discovered run writes the same data header and the same row as a programmed one, because both end in the same walk over the logger's sensor array. NW-Sim holds the cases - `walrus_margay` programmed, `margay_scan` reporting, and a discovered case diffed against `walrus_margay`. A new sensor library joins both paths, not one.
 - A new library joins by being added to the lists here and to the CI clone list, in the same commit that makes it exist.
 - `style_check.py` is the authority on house style: added lines match the file's own indent unit, `if(` or `if (` as the file does, `//Comment` or `// Comment` as the file does, and new files take the Arduino IDE form.
 

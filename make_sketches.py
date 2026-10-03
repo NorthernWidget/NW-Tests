@@ -17,7 +17,7 @@ LIBRARIES = [
     ("Liasis",    "Liasis.h",     "Liasis",    "0x4A",                       "",      "getString()",     "getHeader()"),
     ("T9602",     "T9602.h",      "T9602",     "0x28",                       "",      "printDataRow(Serial)", "printDataHeader(Serial)"),
     ("MaxBotix",  "Maxbotix.h",   "Maxbotix",  "",                           "10",    "getString()",     "getHeader()"),
-    ("NW_BME280", "NW_BME280.h",  "BME",       "0x76",                       "0x76",  "getString()",     "getHeader()"),
+    ("NW_BME280", "NW_BME280.h",  "BME",       "0x76",                       "0x76",  "printDataRow(Serial)", "printDataHeader(Serial)"),
     ("Tally",     "Tally_I2C.h",  "Tally_I2C", "Tally_I2C::DEFAULT_ADDRESS", "",      "GetString()",     "GetHeader()"),
 ]
 

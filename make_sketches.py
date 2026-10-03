@@ -32,8 +32,10 @@ AFTER_BEGIN = {
     sensor.setADCColumns(true);""",
 }
 
-# Libraries on NW_Core, whose sensors a logger's status file can watch (NW_Sensor).
-CORE_SENSORS = {"Apis", "Walrus", "Haar", "Libelle"}
+# Libraries whose sensors a logger can watch (NW_Sensor). T9602 is there through
+# NW_PlainSensor: it has no Page 0, so discover() cannot find it, but a sketch
+# can name it and its columns reach the file like any other sensor's.
+CORE_SENSORS = {"Apis", "Walrus", "Haar", "Libelle", "T9602"}
 
 LOGGERS = {
     "Margay": dict(include="Margay.h", decl="Margay Logger(MODEL_3v0);  // update to match your hardware version",

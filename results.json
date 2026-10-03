@@ -94,14 +94,14 @@
   },
   "T9602_Margay": {
    "ok": true,
-   "flash": 55350,
-   "ram": 3186,
+   "flash": 58018,
+   "ram": 3238,
    "error": ""
   },
   "T9602_Okapi": {
    "ok": true,
-   "flash": 53436,
-   "ram": 3147,
+   "flash": 56142,
+   "ram": 3199,
    "error": ""
   },
   "Tally_Margay": {

@@ -13,8 +13,8 @@ Board `NorthernWidget:avr:NW1284p`; libraries from `/home/awickert/Dropbox/North
 | MaxBotix | ❌ MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope | ❌ MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope |
 | NW_BME280 | ✅ 55160 / 3039 | ✅ 53290 / 3002 |
 | Programmed | ✅ 69990 / 3604 | — |
-| T9602 | ✅ 55350 / 3186 | ✅ 53436 / 3147 |
+| T9602 | ✅ 58018 / 3238 | ✅ 56142 / 3199 |
 | Tally | ✅ 55654 / 2951 | ✅ 53740 / 2914 |
 | Walrus | ✅ 62256 / 3189 | ✅ 60368 / 3150 |
 
-Working trees with uncommitted changes (compiled as they are): MaxBotix_Library
+Working trees with uncommitted changes (compiled as they are): NW_Core, T9602_Library, MaxBotix_Library

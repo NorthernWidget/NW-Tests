@@ -11,9 +11,7 @@ T9602 sensor;
 uint32_t updateRate = 60;  // seconds between readings
 
 void setup() {
-    sensor.begin();
-    sensor.printDataHeader(Serial);  // not on NW_Core: the logger cannot hold it
-    Serial.println();
+    Logger.watch(sensor);  // address, columns and status rows, in one place
     Logger.begin();
 }
 

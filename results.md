@@ -4,14 +4,14 @@ Board `NorthernWidget:avr:NW1284p`; libraries from `/home/awickert/Dropbox/North
 
 | Sensor | Margay | Okapi |
 |---|---|---|
-| Apis | ✅ 67268 / 3131 | ✅ 65562 / 3092 |
-| Haar | ✅ 64106 / 3244 | ✅ 62316 / 3207 |
-| Liasis | ✅ 59924 / 2788 | ✅ 59016 / 2749 |
-| Libelle | ✅ 67282 / 3279 | ✅ 66354 / 3240 |
+| Apis | ✅ 68012 / 3349 | ✅ 66376 / 3310 |
+| Haar | ✅ 64060 / 3462 | ✅ 62340 / 3425 |
+| Liasis | ✅ 57980 / 2978 | ✅ 56208 / 2939 |
+| Libelle | ✅ 67512 / 3501 | ✅ 66732 / 3462 |
 | MaxBotix | ❌ MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope | ❌ MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope |
-| NW_BME280 | ✅ 59212 / 2838 | ✅ 57418 / 2801 |
-| T9602 | ✅ 59402 / 2985 | ✅ 57628 / 2946 |
-| Tally | ✅ 59620 / 2758 | ✅ 57802 / 2719 |
-| Walrus | ✅ 64848 / 2976 | ✅ 63058 / 2937 |
+| NW_BME280 | ✅ 57944 / 3044 | ✅ 56208 / 3007 |
+| T9602 | ✅ 58384 / 3203 | ✅ 56550 / 3164 |
+| Tally | ✅ 57916 / 2956 | ✅ 56146 / 2919 |
+| Walrus | ✅ 65426 / 3194 | ✅ 63706 / 3155 |
 
-Working trees with uncommitted changes (compiled as they are): MaxBotix_Library
+Working trees with uncommitted changes (compiled as they are): NW_Core, Apis_Library, Walrus_Library, MaxBotix_Library

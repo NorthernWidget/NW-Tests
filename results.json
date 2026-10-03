@@ -1,11 +1,113 @@
 {
- "date": "2026-10-02",
+ "date": "2026-10-03",
  "fqbn": "NorthernWidget:avr:NW1284p",
  "results": {
+  "Apis_Margay": {
+   "ok": true,
+   "flash": 67268,
+   "ram": 3131,
+   "error": ""
+  },
+  "Apis_Okapi": {
+   "ok": true,
+   "flash": 65562,
+   "ram": 3092,
+   "error": ""
+  },
+  "Haar_Margay": {
+   "ok": true,
+   "flash": 64106,
+   "ram": 3244,
+   "error": ""
+  },
+  "Haar_Okapi": {
+   "ok": true,
+   "flash": 62316,
+   "ram": 3207,
+   "error": ""
+  },
+  "Liasis_Margay": {
+   "ok": true,
+   "flash": 59924,
+   "ram": 2788,
+   "error": ""
+  },
+  "Liasis_Okapi": {
+   "ok": true,
+   "flash": 59016,
+   "ram": 2749,
+   "error": ""
+  },
+  "Libelle_Margay": {
+   "ok": true,
+   "flash": 67282,
+   "ram": 3279,
+   "error": ""
+  },
+  "Libelle_Okapi": {
+   "ok": true,
+   "flash": 66354,
+   "ram": 3240,
+   "error": ""
+  },
+  "MaxBotix_Margay": {
+   "ok": false,
+   "flash": null,
+   "ram": null,
+   "error": "MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope"
+  },
+  "MaxBotix_Okapi": {
+   "ok": false,
+   "flash": null,
+   "ram": null,
+   "error": "MaxBotix_Library/src/Maxbotix.cpp:101:10: error: 'softSerial' was not declared in this scope"
+  },
+  "NW_BME280_Margay": {
+   "ok": true,
+   "flash": 59212,
+   "ram": 2838,
+   "error": ""
+  },
+  "NW_BME280_Okapi": {
+   "ok": true,
+   "flash": 57418,
+   "ram": 2801,
+   "error": ""
+  },
+  "T9602_Margay": {
+   "ok": true,
+   "flash": 59402,
+   "ram": 2985,
+   "error": ""
+  },
+  "T9602_Okapi": {
+   "ok": true,
+   "flash": 57628,
+   "ram": 2946,
+   "error": ""
+  },
+  "Tally_Margay": {
+   "ok": true,
+   "flash": 59620,
+   "ram": 2758,
+   "error": ""
+  },
+  "Tally_Okapi": {
+   "ok": true,
+   "flash": 57802,
+   "ram": 2719,
+   "error": ""
+  },
   "Walrus_Margay": {
    "ok": true,
-   "flash": 65036,
-   "ram": 2944,
+   "flash": 64848,
+   "ram": 2976,
+   "error": ""
+  },
+  "Walrus_Okapi": {
+   "ok": true,
+   "flash": 63058,
+   "ram": 2937,
    "error": ""
   }
  }

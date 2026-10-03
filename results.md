@@ -17,4 +17,4 @@ Board `NorthernWidget:avr:NW1284p`; libraries from `/home/awickert/Dropbox/North
 | Tally | ✅ 55654 / 2951 | ✅ 53740 / 2914 |
 | Walrus | ✅ 62256 / 3189 | ✅ 60368 / 3150 |
 
-Working trees with uncommitted changes (compiled as they are): NW_Core, T9602_Library, MaxBotix_Library
+Working trees with uncommitted changes (compiled as they are): MaxBotix_Library

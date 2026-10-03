@@ -37,61 +37,30 @@ CORE_SENSORS = {"Apis", "Walrus", "Haar", "Libelle"}
 
 LOGGERS = {
     "Margay": dict(include="Margay.h", decl="Margay Logger(MODEL_3v0);  // update to match your hardware version",
-                   begin="Logger.begin(I2CVals, sizeof(I2CVals), header);", run="Logger.run(update, updateRate);"),
+                   begin="Logger.begin();", run="Logger.run(updateRate);"),
     "Okapi":  dict(include="Okapi.h",  decl="Okapi Logger;",
-                   begin="Logger.begin(I2CVals, sizeof(I2CVals), header);", run="Logger.run(update, updateRate);"),
+                   begin="Logger.begin();", run="Logger.run(updateRate);"),
 }
 
-# LIBRARY-DESIGN.md section 14 step 3 gave the logger a second way to write the
-# header row: printFileHeader() walks the watched sensors instead of using the
-# String the sketch composed. The two must agree, and an unchanged transcript
-# would not prove it, because nothing else calls the new path yet. So the sketch
-# checks it and says nothing when they match: a mismatch is what moves a
-# recorded baseline. Only sketches that watch a sensor can make the comparison.
-HEADER_CHECK = """
-    // Section 14 step 3: the streamed header must equal the composed one.
-    String streamed = "";
-    NW_StringPrint headerSink(streamed);
-    Logger.printFileHeader(headerSink);
-    if (streamed != Logger.dataHeader()) {
-        Serial.print(F("HEADER MISMATCH: streamed="));
-        Serial.println(streamed);
-    }"""
 
 TEMPLATE = """// {name} on the {logger} data logger: compile test (NW-Tests).
-// Same shape as the hand-written logger examples: the logger owns the loop and
-// calls update() every updateRate seconds; update() returns the sensor's CSV row.
+// The logger owns the loop and writes each row from the sensors it was given:
+// watch() states the sensor, its address and its column order in one place, and
+// run() does the rest. The sketch keeps no header and no update() function.
 #include <{linclude}>
 #include <{header}>
 
 {ldecl}
 {cls} sensor;
 
-uint8_t I2CVals[] = {{{addr}}};{addrnote}
-String header = "";
 uint32_t updateRate = 60;  // seconds between readings
 
 void setup() {{
-    // begin() first: a device's header can depend on what begin() read from it.
-    // A Walrus whose Page 1 names no MS5803 converts nothing and reports its own
-    // ADC conversions instead, and getHeader() can only know that once Page 1 has
-    // been read. A file's header must mean the same thing for its whole life.
-    initialize();
-    header = sensor.{hdr};
-    {lbegin}{watch}{headercheck}
+{sensor}    {lbegin}{after}
 }}
 
 void loop() {{
     {lrun}
-}}
-
-String update() {{
-    initialize();
-    return sensor.{str};
-}}
-
-void initialize() {{
-    sensor.begin({bargs});{after}
 }}
 """
 
@@ -104,6 +73,12 @@ for name, header, cls, addr, bargs, s, h in LIBRARIES:
             addr=addr, addrnote="" if addr else "  // no I2C address: the logger's bus test has nothing to check",
             hdr=h, lbegin=L["begin"], lrun=L["run"], str=s, bargs=bargs,
             after=AFTER_BEGIN.get(name, ""),
-            watch="\n    Logger.watch(sensor);  // its reports go to the status file" if name in CORE_SENSORS else "",
-            headercheck=HEADER_CHECK if name in CORE_SENSORS else ""))
+            # On NW_Core: one line states the sensor, its address and its column
+            # order, and the logger does the rest. Not on NW_Core: the logger
+            # cannot hold it, so the sketch exercises the library itself and the
+            # row never reaches the file.
+            sensor=("    Logger.watch(sensor);  // address, columns and status rows, in one place\n"
+                    if name in CORE_SENSORS else
+                    f"    sensor.begin({bargs});\n"
+                    f"    Serial.println(sensor.{h});  // not on NW_Core: the logger cannot hold it\n")))
 print(f"{2*len(LIBRARIES)} sketches written")

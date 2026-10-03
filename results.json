@@ -4,62 +4,62 @@
  "results": {
   "AllSensors_Margay": {
    "ok": true,
-   "flash": 82136,
-   "ram": 4697,
+   "flash": 79906,
+   "ram": 4691,
    "error": ""
   },
   "Apis_Margay": {
    "ok": true,
-   "flash": 67134,
-   "ram": 3350,
+   "flash": 64844,
+   "ram": 3344,
    "error": ""
   },
   "Apis_Okapi": {
    "ok": true,
-   "flash": 65442,
-   "ram": 3311,
+   "flash": 63736,
+   "ram": 3305,
    "error": ""
   },
   "Discovered_Margay": {
    "ok": true,
-   "flash": 72532,
-   "ram": 3614,
+   "flash": 70260,
+   "ram": 3608,
    "error": ""
   },
   "Haar_Margay": {
    "ok": true,
-   "flash": 63916,
-   "ram": 3463,
+   "flash": 61624,
+   "ram": 3457,
    "error": ""
   },
   "Haar_Okapi": {
    "ok": true,
-   "flash": 62140,
-   "ram": 3426,
+   "flash": 60424,
+   "ram": 3420,
    "error": ""
   },
   "Liasis_Margay": {
    "ok": true,
-   "flash": 57496,
-   "ram": 2979,
+   "flash": 55718,
+   "ram": 2973,
    "error": ""
   },
   "Liasis_Okapi": {
    "ok": true,
-   "flash": 55682,
-   "ram": 2940,
+   "flash": 54076,
+   "ram": 2934,
    "error": ""
   },
   "Libelle_Margay": {
    "ok": true,
-   "flash": 67000,
-   "ram": 3494,
+   "flash": 64750,
+   "ram": 3488,
    "error": ""
   },
   "Libelle_Okapi": {
    "ok": true,
-   "flash": 66202,
-   "ram": 3455,
+   "flash": 64498,
+   "ram": 3449,
    "error": ""
   },
   "MaxBotix_Margay": {
@@ -76,56 +76,56 @@
   },
   "NW_BME280_Margay": {
    "ok": true,
-   "flash": 57446,
-   "ram": 3045,
+   "flash": 55160,
+   "ram": 3039,
    "error": ""
   },
   "NW_BME280_Okapi": {
    "ok": true,
-   "flash": 55668,
-   "ram": 3008,
+   "flash": 53976,
+   "ram": 3002,
    "error": ""
   },
   "Programmed_Margay": {
    "ok": true,
-   "flash": 72282,
-   "ram": 3610,
+   "flash": 69990,
+   "ram": 3604,
    "error": ""
   },
   "T9602_Margay": {
    "ok": true,
-   "flash": 57626,
-   "ram": 3192,
+   "flash": 55350,
+   "ram": 3186,
    "error": ""
   },
   "T9602_Okapi": {
    "ok": true,
-   "flash": 55828,
-   "ram": 3153,
+   "flash": 54122,
+   "ram": 3147,
    "error": ""
   },
   "Tally_Margay": {
    "ok": true,
-   "flash": 57432,
-   "ram": 2957,
+   "flash": 55654,
+   "ram": 2951,
    "error": ""
   },
   "Tally_Okapi": {
    "ok": true,
-   "flash": 55620,
-   "ram": 2920,
+   "flash": 54014,
+   "ram": 2914,
    "error": ""
   },
   "Walrus_Margay": {
    "ok": true,
-   "flash": 64546,
-   "ram": 3195,
+   "flash": 62256,
+   "ram": 3189,
    "error": ""
   },
   "Walrus_Okapi": {
    "ok": true,
-   "flash": 62770,
-   "ram": 3156,
+   "flash": 61054,
+   "ram": 3150,
    "error": ""
   }
  }

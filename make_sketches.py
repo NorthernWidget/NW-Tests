@@ -15,7 +15,7 @@ LIBRARIES = [
     ("Haar",      "Haar.h",       "Haar",      "Haar::DEFAULT_ADDRESS",      "",      "getString()",     "getHeader()"),
     ("Libelle",   "Libelle.h",    "Libelle",   "Libelle::DEFAULT_ADDRESS_UP", "",     "getString()",     "getHeader()"),
     ("Liasis",    "Liasis.h",     "Liasis",    "0x4A",                       "",      "getString()",     "getHeader()"),
-    ("T9602",     "T9602.h",      "T9602",     "0x28",                       "",      "getString(true)", "getHeader()"),
+    ("T9602",     "T9602.h",      "T9602",     "0x28",                       "",      "printDataRow(Serial)", "printDataHeader(Serial)"),
     ("MaxBotix",  "Maxbotix.h",   "Maxbotix",  "",                           "10",    "getString()",     "getHeader()"),
     ("NW_BME280", "NW_BME280.h",  "BME",       "0x76",                       "0x76",  "getString()",     "getHeader()"),
     ("Tally",     "Tally_I2C.h",  "Tally_I2C", "Tally_I2C::DEFAULT_ADDRESS", "",      "GetString()",     "GetHeader()"),
@@ -80,5 +80,9 @@ for name, header, cls, addr, bargs, s, h in LIBRARIES:
             sensor=("    Logger.watch(sensor);  // address, columns and status rows, in one place\n"
                     if name in CORE_SENSORS else
                     f"    sensor.begin({bargs});\n"
-                    f"    Serial.println(sensor.{h});  // not on NW_Core: the logger cannot hold it\n")))
+                    # A library on the streaming interface prints into Serial
+                    # itself; one that still returns a String is printed.
+                    + (f"    sensor.{h};  // not on NW_Core: the logger cannot hold it\n"
+                       f"    Serial.println();\n" if "(Serial)" in h else
+                       f"    Serial.println(sensor.{h});  // not on NW_Core: the logger cannot hold it\n"))))
 print(f"{2*len(LIBRARIES)} sketches written")

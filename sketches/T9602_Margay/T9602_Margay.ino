@@ -12,7 +12,8 @@ uint32_t updateRate = 60;  // seconds between readings
 
 void setup() {
     sensor.begin();
-    Serial.println(sensor.getHeader());  // not on NW_Core: the logger cannot hold it
+    sensor.printDataHeader(Serial);  // not on NW_Core: the logger cannot hold it
+    Serial.println();
     Logger.begin();
 }
 

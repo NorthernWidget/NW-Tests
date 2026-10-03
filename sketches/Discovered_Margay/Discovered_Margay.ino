@@ -9,6 +9,10 @@
 // here is deliberately not address order: discovery walks the bus, so the
 // columns come out in address order whatever order the candidates are declared
 // in.
+//
+// The whole of setup() is one call. begin(candidates, n) brings the board up
+// and then asks the bus, in that order, because the sensor rail and the bus
+// switch are the board's and a bus asked before begin() answers nothing.
 #include <Margay.h>
 #include <Apis.h>
 #include <Walrus_I2C.h>
@@ -22,8 +26,7 @@ NW_Sensor* candidates[] = {&stage, &distance};
 uint32_t updateRate = 60;  // seconds between readings
 
 void setup() {
-    Logger.discover(candidates, sizeof(candidates) / sizeof(candidates[0]));
-    Logger.begin();
+    Logger.begin(candidates, sizeof(candidates) / sizeof(candidates[0]));
 }
 
 void loop() {

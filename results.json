@@ -16,7 +16,7 @@
   },
   "Apis_Okapi": {
    "ok": true,
-   "flash": 63736,
+   "flash": 63050,
    "ram": 3305,
    "error": ""
   },
@@ -34,7 +34,7 @@
   },
   "Haar_Okapi": {
    "ok": true,
-   "flash": 60424,
+   "flash": 59738,
    "ram": 3420,
    "error": ""
   },
@@ -46,7 +46,7 @@
   },
   "Liasis_Okapi": {
    "ok": true,
-   "flash": 54076,
+   "flash": 53802,
    "ram": 2934,
    "error": ""
   },
@@ -58,7 +58,7 @@
   },
   "Libelle_Okapi": {
    "ok": true,
-   "flash": 64498,
+   "flash": 63812,
    "ram": 3449,
    "error": ""
   },
@@ -82,7 +82,7 @@
   },
   "NW_BME280_Okapi": {
    "ok": true,
-   "flash": 53976,
+   "flash": 53290,
    "ram": 3002,
    "error": ""
   },
@@ -100,7 +100,7 @@
   },
   "T9602_Okapi": {
    "ok": true,
-   "flash": 54122,
+   "flash": 53436,
    "ram": 3147,
    "error": ""
   },
@@ -112,7 +112,7 @@
   },
   "Tally_Okapi": {
    "ok": true,
-   "flash": 54014,
+   "flash": 53740,
    "ram": 2914,
    "error": ""
   },
@@ -124,7 +124,7 @@
   },
   "Walrus_Okapi": {
    "ok": true,
-   "flash": 61054,
+   "flash": 60368,
    "ram": 3150,
    "error": ""
   }

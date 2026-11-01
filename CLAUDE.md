@@ -15,6 +15,8 @@ python3 version_check.py      # library.properties vs source vs CITATION.cff vs 
 python3 style_check.py <repo> # gate every commit touching .ino/.cpp/.h on this
 ```
 
+For a `.kicad_sch` or `.kicad_pcb`, `kicad/check_conversion.sh` and `kicad/roundtrip.sh` are the gate instead (expected numbers and the file-format rules are in the `nw-kicad` skill).
+
 `compile.py` reads sibling checkouts from `NW_WORKSPACE`, defaulting to the parent directory, and builds with an **empty** sketchbook so that stale copies in `~/Arduino/libraries` cannot satisfy an include.
 
 ## Working rules

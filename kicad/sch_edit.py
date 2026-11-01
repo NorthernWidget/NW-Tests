@@ -1,14 +1,14 @@
 """Text edits on a .kicad_sch that leave what KiCad itself would have written.
 
     from sch_edit import Editor
-    e = Editor('Okapi_2.kicad_sch')
-    e.move_symbol('R37', 2.54, 0)                 # symbol and all its property anchors
+    e = Editor('sheet.kicad_sch')
+    e.move_symbol('R1', 2.54, 0)                 # symbol and all its property anchors
     e.move_wire(a, b, a2, b2)                     # both ends of the wire a-b
     e.move_wire_end(a, b, old, new)               # one end
     e.add_wire(a, b); e.delete_wire(a, b)
     e.move_junction(p, q); e.delete_junction(p)
-    e.move_label('global_label', 'LED1', p, dx, dy)   # label and its hidden Intersheetrefs field
-    e.set_property('R37', 'Reference', x, y)      # one property anchor, angle kept
+    e.move_label('global_label', 'NET', p, dx, dy)   # label and its hidden Intersheetrefs field
+    e.set_property('R1', 'Reference', x, y)      # one property anchor, angle kept
     e.save()
 
 Every operation asserts the thing it edits exists exactly once, so a stale

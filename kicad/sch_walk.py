@@ -4,7 +4,7 @@ symbol pin placed at its sheet position.
     python3 sch_walk.py <sheet.kicad_sch> <x_mm> <y_mm>     # what touches that point
 
     from sch_walk import Sheet
-    s = Sheet('Okapi_2.kicad_sch'); s.syms['R36']; s.at_point((337.82, 88.9))
+    s = Sheet('sheet.kicad_sch'); s.syms['R1']; s.at_point((x, y))
 
 A wire end that at_point reports as touching nothing but its own wire is a
 dangling end; one that touches a second wire's interior without a junction is a

@@ -42,6 +42,10 @@ cd kicad
 ./roundtrip.sh <root.kicad_sch>                                       # KiCad re-saves a copy; every sheet must come back byte-identical
 ./render.sh <root.kicad_sch> <outdir>                                 # SVG and 600 dpi PNG per sheet
 python3 kicad/crop.py <sheet.png> <x_mm> <y_mm> <w_mm> <h_mm> <out.png>
+./erc_counts.sh <root.kicad_sch> <out.json>                          # ERC with every severity; the two endpoint counts and the total
+python3 sch_walk.py <sheet.kicad_sch> <x_mm> <y_mm>                   # every pin, wire, label and junction touching a point
 ```
 
-For Okapi the conversion check expects 209 of 209 Eagle nets reproduced with 0 differences, and the round trip returns `Okapi_2` to `Okapi_6` identical (the root sheet carries two differences left by the import). Needs `kicad-cli` (10.0.7), `inkscape`, and ImageMagick.
+To change a sheet, import `sch_edit.Editor` (move a symbol with its fields, move or add or delete a wire, move a junction or a label, set one property anchor) and run the three checks above on the result. Each operation asserts that what it edits exists exactly once, and a move followed by the reverse move returns the file byte for byte. `sch_walk.Sheet` is the geometry reader behind the point query.
+
+For Okapi the conversion check expects 209 of 209 Eagle nets reproduced with 0 differences, and the round trip returns `Okapi_2` to `Okapi_6` identical (the root sheet carries two differences left by the import). ERC on Okapi reports 0 unconnected wire endpoints and 0 off-grid endpoints; its JSON files every violation under the first sheet and gives a dangling wire's connected end, so diagnose with the point query, not from it. Needs `kicad-cli` (10.0.7), `inkscape`, and ImageMagick.

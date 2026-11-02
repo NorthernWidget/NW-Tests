@@ -44,7 +44,15 @@ cd kicad
 python3 kicad/crop.py <sheet.png> <x_mm> <y_mm> <w_mm> <h_mm> <out.png>
 ./erc_counts.sh <root.kicad_sch> <out.json>                          # ERC with every severity; the two endpoint counts and the total
 python3 sch_walk.py <sheet.kicad_sch> <x_mm> <y_mm>                   # every pin, wire, label and junction touching a point
+./roundtrip_pcb.sh <board.kicad_pcb>                                 # KiCad re-saves a copy of the board; must come back identical
+./render_pcb.sh <board.kicad_pcb> <out.png> [layers] [dpi]           # board to PNG in sheet coordinates (1200 dpi: 47.24 px/mm)
+python3 relink.py <root.kicad_sch> <board.kicad_pcb> <eagle.brd> <nickname> <library.pretty> [--strip SUF] [--alias OLD=NEW] [--write-table]
+python3 rebody.py <board.kicad_pcb> <nickname> <library.pretty> [--report out.json]
+python3 link_paths.py <netlist.xml> <board.kicad_pcb> [--values] [--fields]
+python3 rename_nets.py <netlist.xml> <board.kicad_pcb>
 ```
+
+The last four take a converted project onto a shared footprint library in the order given: relink rewrites every footprint reference by the element's Eagle package; rebody replaces every embedded footprint body with the library's, keeping placement, rotation, side and pad nets; link_paths and rename_nets write what Update PCB from Schematic would (symbol paths, values, fields, the schematic's net names), from a `kicad-cli sch export netlist --format kicadxml` file. After each: `kicad-cli pcb upgrade --force` on the board (twice the first time), `roundtrip_pcb.sh`, and `pcb_stats.py` before and after, whose pad-net table must be identical by (reference, pad), names aside for rename_nets.
 
 To change a sheet, import `sch_edit.Editor` (move a symbol with its fields, move or add or delete a wire, move a junction or a label, set one property anchor) and run the three checks above on the result. Each operation asserts that what it edits exists exactly once, and a move followed by the reverse move returns the file byte for byte. `sch_walk.Sheet` is the geometry reader behind the point query.
 

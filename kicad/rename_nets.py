@@ -43,6 +43,7 @@ if assign:
         if '(net "' in item: return item
         sn=sch.get((ref,pm.group(1)))
         if not sn: return item
+        if sn.startswith('unconnected-('): sn=sn.replace('/','{slash}')   # KiCad escapes a slash in a pin name on the board; the export does not
         assigned+=1
         if sn not in known: known.add(sn); newnets.append(sn)
         return re.sub(r'(\(layers [^)]*\)\n)',lambda q:q.group(1)+'\t\t\t(net "%s")\n'%esc(sn),item,count=1)

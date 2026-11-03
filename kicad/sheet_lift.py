@@ -9,7 +9,10 @@ Every item whose anchor lies inside one of the rectangles (a symbol by its
 own (at ...), a wire or polyline by every point, a label, junction,
 no-connect or text by its (at ...)) moves to the destination sheet,
 translated by (DX, DY) mm; give whole grid ticks (multiples of 1.27). A
-wire with one end inside and one outside stops the run: cut nothing. The
+wire with one end inside and one outside stops the run: cut nothing; with
+--stretch such a wire keeps its outside end and its inside end moves with
+the block, which keeps it straight only when the move is along the wire
+(a block moved sideways stretches its horizontal leads). The
 lib_symbols entries the moved symbols need are copied into the destination
 and those the source no longer uses are dropped from it. With --new the
 destination is created with the given uuid (use the uuid the root's sheet
@@ -115,12 +118,15 @@ def main():
     dry = '--dry-run' in a
     if dry:
         a.remove('--dry-run')
+    stretch = '--stretch' in a
+    if stretch:
+        a.remove('--stretch')
     src, dst = a
     t = open(src).read()
     items, closing = split_items(t)
     head = [it for it in items if it[0] in HEAD_KINDS]
     lib = [it for it in head if it[0] == 'lib_symbols'][0][1]
-    moving, staying = [], []
+    moving, staying, stretched = [], [], []
     for kind, item in items:
         if kind in HEAD_KINDS or kind in STAY:
             continue
@@ -132,14 +138,27 @@ def main():
         if all(flags):
             moving.append([kind, item])
         elif any(flags):
-            raise SystemExit('%s straddles the region: %s' % (kind, item[:120]))
+            if stretch and kind == 'wire' and len(pts) == 2:
+                # --stretch: the wire keeps its outside end and its inside end moves with the block;
+                # it stays straight only if the move is along the wire's own axis
+                (ax, ay), (bx, by) = pts
+                horizontal, vertical = ay == by, ax == bx
+                # a two-point wire stays straight whatever happens to one end; only an axis-aligned wire
+                # pushed across its axis would turn diagonal, which is refused
+                assert not ((horizontal and dy != 0) or (vertical and dx != 0)), 'cannot stretch the wire %s-%s by (%s, %s): across its axis' % (pts[0], pts[1], dx, dy)
+                inner = pts[flags.index(True)]
+                item = item.replace('(xy %s %s)' % (fmt(inner[0]), fmt(inner[1])), '(xy %s %s)' % (fmt(inner[0] + dx), fmt(inner[1] + dy)), 1)
+                staying.append([kind, item])
+                stretched.append(item)
+            else:
+                raise SystemExit('%s straddles the region: %s' % (kind, pts))
         else:
             staying.append([kind, item])
     refs = sorted(re.search(r'\(property "Reference" "([^"]*)"', it[1]).group(1) for it in moving if it[0] == 'symbol')
     counts = {}
     for kind, _ in moving:
         counts[kind] = counts.get(kind, 0) + 1
-    print('%s -> %s: moving %s; symbols %s' % (src, dst, counts, ' '.join(refs)))
+    print('%s -> %s: moving %s; symbols %s%s' % (src, dst, counts, ' '.join(refs), '; %d wires stretched' % len(stretched) if stretched else ''))
     if dry:
         return
     moved = [[k, translate(it, dx, dy)] for k, it in moving]

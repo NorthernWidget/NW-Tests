@@ -14,7 +14,10 @@ import sys,re,collections,xml.etree.ElementTree as ET
 assign='--assign-unconnected' in sys.argv; xml,pcb=[a for a in sys.argv[1:] if not a.startswith('--')][:2]
 sch={}   # (ref,pad) -> schematic net name
 for n in ET.parse(xml).getroot().find('nets').findall('net'):
-    for node in n.findall('node'): sch[(node.get('ref'),node.get('pin'))]=n.get('name')
+    for node in n.findall('node'):
+        name=n.get('name')
+        if name.startswith('unconnected-('): name=name.replace('/','{slash}')   # KiCad escapes a slash in a pin name on the board; the export does not
+        sch[(node.get('ref'),node.get('pin'))]=name
 t=open(pcb).read()
 board=collections.defaultdict(set)   # board net -> {schematic nets of its pads}
 for m in re.finditer(r'^\t\(footprint "[^"]+"\n.*?^\t\)\n',t,re.S|re.M):
@@ -43,7 +46,6 @@ if assign:
         if '(net "' in item: return item
         sn=sch.get((ref,pm.group(1)))
         if not sn: return item
-        if sn.startswith('unconnected-('): sn=sn.replace('/','{slash}')   # KiCad escapes a slash in a pin name on the board; the export does not
         assigned+=1
         if sn not in known: known.add(sn); newnets.append(sn)
         return re.sub(r'(\(layers [^)]*\)\n)',lambda q:q.group(1)+'\t\t\t(net "%s")\n'%esc(sn),item,count=1)

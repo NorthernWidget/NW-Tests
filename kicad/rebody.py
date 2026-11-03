@@ -39,8 +39,26 @@ def items(block,depth):
     return head,['\n'.join(x) for x in its],'\n'.join(tail)
 def kind(item): return re.match(r'\s*\((\S+)',item).group(1)
 def swap_layers(t): return re.sub(r'"([FB])\.',lambda m:'"'+('B' if m.group(1)=='F' else 'F')+'.',t)
-def transform(item,rot,back):
+def transform(item,rot,back,pos=(0.0,0.0),copper=None):
     k=kind(item)
+    if k=='zone':
+        # A footprint zone's polygon is written in board coordinates (pads and graphics are local):
+        # mirror for the back side, rotate by the instance angle, translate to the instance.
+        import math
+        c,s=math.cos(math.radians(rot)),math.sin(math.radians(rot))
+        def xy(m):
+            lx,ly=float(m.group(1)),float(m.group(2))
+            if back: ly=-ly
+            return '(xy %s %s)'%(fmt(pos[0]+lx*c+ly*s),fmt(pos[1]-lx*s+ly*c))
+        item=re.sub(r'\(xy (-?[\d.]+) (-?[\d.]+)\)',xy,item)
+        if copper:   # the library lists every copper layer; the board holds only its own
+            def layers(m):
+                names=re.findall(r'"[^"]*"',m.group(1))
+                keep=[n for n in names if not n.endswith('.Cu"') or n in copper]
+                return '(layers %s)'%' '.join(keep)
+            item=re.sub(r'\(layers ((?:\s*"[^"]*")+)\s*\)',layers,item,count=1)
+        if back: item=swap_layers(item)
+        return re.sub(r'\(uuid "[^"]+"\)',lambda m:'(uuid "%s")'%uuid.uuid4(),item)
     if back:
         item=re.sub(r'\((start|end|mid|center|xy) (-?[\d.]+) (-?[\d.]+)\)',lambda m:'(%s %s %s)'%(m.group(1),m.group(2),fmt(-float(m.group(3)))),item)
         item=swap_layers(item)
@@ -58,11 +76,11 @@ def padinfo(item):
     at=re.search(r'\(at (-?[\d.]+) (-?[\d.]+)',item); sz=re.search(r'\(size (-?[\d.]+) (-?[\d.]+)',item)
     net=re.search(r'\((net (?:\d+ )?"[^"]*")\)',item)
     return num,(float(at.group(1)),float(at.group(2))),(float(sz.group(1)),float(sz.group(2))),net.group(1) if net else None
-def rebody_block(block,libitems):
+def rebody_block(block,libitems,copper=None):
     """One footprint block of a board, re-bodied from the library's items. Returns (new block, report dict or None)."""
     head,its,tail=items(block,2)
     layer=re.search(r'^\t\t\(layer "([^"]+)"\)',block,re.M).group(1); back=layer.startswith('B.')
-    atm=re.search(r'^\t\t\(at (-?[\d.]+) (-?[\d.]+)(?: (-?[\d.]+))?\)',block,re.M); rot=float(atm.group(3) or 0)
+    atm=re.search(r'^\t\t\(at (-?[\d.]+) (-?[\d.]+)(?: (-?[\d.]+))?\)',block,re.M); rot=float(atm.group(3) or 0); pos=(float(atm.group(1)),float(atm.group(2)))
     isbody=[kind(i) in BODY for i in its]
     first=isbody.index(True) if any(isbody) else len(its)
     keep_before=[i for j,i in enumerate(its) if not isbody[j] and j<first]
@@ -74,7 +92,7 @@ def rebody_block(block,libitems):
     new=[]; pads_new={}
     for li in libitems:
         if kind(li) not in BODY: continue
-        ti='\n'.join('\t'+l for l in transform(li,rot,back).split('\n'))
+        ti='\n'.join('\t'+l for l in transform(li,rot,back,pos,copper).split('\n'))
         if kind(li)=='pad':
             num=padinfo(ti)[0]
             if num in old and old[num][3]:
@@ -95,6 +113,7 @@ def main():
     pcb,nick,pretty=a
     lib={}; rep={}; n=[0]
     t=open(pcb).read()
+    copper=set(re.findall(r'^\t\t\(\d+ ("[A-Za-z0-9]+\.Cu")',t,re.M))   # the board's own copper layers
     def sub(m):
         block=m.group(0); name=m.group(1)
         if not name.startswith(nick+':'): return block
@@ -102,7 +121,7 @@ def main():
         if only and ref not in only: return block
         fname=name.split(':',1)[1]
         if fname not in lib: lib[fname]=items(open(os.path.join(pretty,fname+'.kicad_mod')).read(),1)[1]
-        out,r=rebody_block(block,lib[fname]); n[0]+=1
+        out,r=rebody_block(block,lib[fname],copper); n[0]+=1
         if r: r['name']=fname; rep[ref]=r
         return out
     t2=re.sub(r'^\t\(footprint "([^"]+)"\n.*?^\t\)\n',sub,t,flags=re.S|re.M)

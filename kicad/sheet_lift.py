@@ -20,7 +20,7 @@ symbol will carry), paper and title block. Run `kicad-cli sch upgrade
 --force` on both files afterwards to let KiCad order the items, then
 roundtrip.sh.
 """
-import re, sys
+import os, re, sys
 
 HEAD_KINDS = ('version', 'generator', 'generator_version', 'uuid', 'paper', 'title_block', 'lib_symbols')
 STAY = ('sheet_instances', 'symbol_instances', 'embedded_fonts')
@@ -162,6 +162,12 @@ def main():
     if dry:
         return
     moved = [[k, translate(it, dx, dy)] for k, it in moving]
+    if not new and os.path.realpath(src) == os.path.realpath(dst):
+        # a move within one sheet: the head and its lib_symbols stay as they are (pruning the source first and
+        # reading it back as the destination lost the lib_symbols block when a rectangle took every symbol)
+        open(dst, 'w').write('(kicad_sch\n' + ''.join(it[1] for it in head) + ''.join(it[1] for it in staying) + ''.join(it[1] for it in moved) + closing)
+        print('  in place: %d items moved' % len(moved))
+        return
     src_entries = lib_entries(lib)
     need = used_lib_ids(moved)
     keep = used_lib_ids(staying)

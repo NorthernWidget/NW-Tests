@@ -82,9 +82,10 @@ def main():
         t = re.sub(r'\(paper "[^"]*"[^)]*\)', '(paper "%s")' % paper, t, count=1)
     out = []
     for i, s in enumerate(sheets):
-        col, row = i % 3, i // 3
+        ncol = 3 if len(sheets) <= 12 else 4   # four columns keep up to sixteen on a Letter page
+        col, row = i % ncol, i // ncol
         x = 25.4 + 63.5 * col
-        y = 25.4 + 44.45 * row
+        y = 25.4 + (44.45 if ncol == 3 else 38.1) * row   # four rows of 31.75 at 38.1 end at 171.45, above the title block
         out.append(TEMPLATE.format(x=fmt(x), y=fmt(y), yn=fmt(y - 0.7116), yf=fmt(y + 31.75 + 0.5346),
                                    uuid=s['uuid'], name=s['name'], file=s['file'], project=project, root=root_uuid, page=i + 2))
     # sheets go before sheet_instances

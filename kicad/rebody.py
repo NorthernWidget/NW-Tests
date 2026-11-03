@@ -21,7 +21,7 @@ identical by (reference, pad).
 import sys,os,re,uuid,json
 BODY=('fp_line','fp_poly','fp_circle','fp_arc','fp_rect','fp_text','pad','model','zone','group')
 def fmt(v):
-    s=('%.4f'%v).rstrip('0').rstrip('.'); return '0' if s in ('-0','') else s
+    s=('%.6f'%v).rstrip('0').rstrip('.'); return '0' if s in ('-0','') else s   # KiCad writes up to six decimals and compares exactly
 def items(block,depth):
     """Split a block into (head lines, [item texts], tail): items open at this tab depth; the block closes one depth up."""
     ind='\t'*depth; close='\t'*(depth-1)+')'
@@ -84,6 +84,13 @@ def rebody_block(block,libitems,copper=None):
     isbody=[kind(i) in BODY for i in its]
     first=isbody.index(True) if any(isbody) else len(its)
     keep_before=[i for j,i in enumerate(its) if not isbody[j] and j<first]
+    # descr and tags are the library's: take them from it (after the instance's (at ...) line, where KiCad writes them)
+    libmeta=[i for i in libitems if kind(i) in ('descr','tags')]
+    keep_before=[i for i in keep_before if kind(i) not in ('descr','tags')]
+    if libmeta:
+        k=[j for j,i in enumerate(keep_before) if kind(i)=='at']
+        pos_i=(k[0]+1) if k else len(keep_before)
+        keep_before[pos_i:pos_i]=['\t'+i for i in libmeta]
     keep_after=[i for j,i in enumerate(its) if not isbody[j] and j>=first]
     old={}
     for i in its:

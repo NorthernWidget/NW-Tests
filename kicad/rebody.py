@@ -10,6 +10,8 @@ library angle (derived from every back-side instance on two boards). Each pad
 keeps the net the instance's pad of the same number had. The instance keeps
 its placement, uuid, properties (reference, value, BOM fields), path and
 attributes, in their order; KiCad's trailing items (embedded_fonts) stay last.
+The library's (attr ...) line is the part's and is taken, with any
+placement-only attribute the instance carried kept beside it.
 New body items get fresh uuids, as KiCad gives on placement.
 
 The report lists, per footprint, pads whose number exists on one side only
@@ -92,6 +94,17 @@ def rebody_block(block,libitems,copper=None):
         pos_i=(k[0]+1) if k else len(keep_before)
         keep_before[pos_i:pos_i]=['\t'+i for i in libmeta]
     keep_after=[i for j,i in enumerate(its) if not isbody[j] and j>=first]
+    # the library's (attr ...) is the part's (through_hole, smd, allow_soldermask_bridges, ...): the instance takes it,
+    # keeping any placement-only attribute it carried (board_only, exclude_from_pos_files, exclude_from_bom, dnp)
+    libattr=[i for i in libitems if kind(i)=='attr']
+    if libattr:
+        libwords=libattr[0].strip()[len('(attr '):-1].split()
+        mine=[i for i in keep_before+keep_after if kind(i)=='attr']
+        placement=[w for w in (mine[0].strip()[len('(attr '):-1].split() if mine else []) if w in ('board_only','exclude_from_pos_files','exclude_from_bom','dnp')]
+        line='\t\t(attr %s)'%' '.join(libwords+[w for w in placement if w not in libwords])
+        keep_before=[i for i in keep_before if kind(i)!='attr']; keep_after=[i for i in keep_after if kind(i)!='attr']
+        k=[j for j,i in enumerate(keep_before) if kind(i)=='sheetfile']
+        keep_before.insert((k[0]+1) if k else len(keep_before),line)
     old={}
     for i in its:
         if kind(i)=='pad':

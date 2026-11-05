@@ -105,6 +105,14 @@ def rebody_block(block,libitems,copper=None):
         keep_before=[i for i in keep_before if kind(i)!='attr']; keep_after=[i for i in keep_after if kind(i)!='attr']
         k=[j for j,i in enumerate(keep_before) if kind(i)=='sheetfile']
         keep_before.insert((k[0]+1) if k else len(keep_before),line)
+    # whether same-numbered pads are one terminal (KiCad 9+): the library's word replaces the instance's
+    libjump=[i for i in libitems if kind(i)=='duplicate_pad_numbers_are_jumpers']
+    if libjump:
+        line='\t'+libjump[0].strip()
+        had=[i for i in keep_before+keep_after if kind(i)=='duplicate_pad_numbers_are_jumpers']
+        keep_before=[i for i in keep_before if kind(i)!='duplicate_pad_numbers_are_jumpers']; keep_after=[i for i in keep_after if kind(i)!='duplicate_pad_numbers_are_jumpers']
+        k=[j for j,i in enumerate(keep_before) if kind(i) in ('attr','sheetfile')]
+        keep_before.insert((k[-1]+1) if k else len(keep_before),'\t'+line)
     old={}
     for i in its:
         if kind(i)=='pad':

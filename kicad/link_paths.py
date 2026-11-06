@@ -10,7 +10,7 @@ tstamp>") with (sheetname) and (sheetfile) from the component's properties.
 A reference with no component (a logo, a mounting hole) is left alone and
 listed. --values sets the footprint's Value property to the symbol's; --fields
 copies the component's other fields (DIGIKEY, MPN, ...) as footprint
-properties, sets the footprint's Description to the symbol's, and marks the
+properties (a field the footprint already has takes the symbol's value), sets the footprint's Description to the symbol's, and marks the
 footprint excluded from the BOM when the symbol is. The schematic parity check compares all three. Re-save with
 kicad-cli pcb upgrade afterwards.
 """
@@ -24,10 +24,10 @@ for c in ET.parse(xml).getroot().find('components').findall('comp'):
     attrs=[a for a in ('exclude_from_bom','exclude_from_board','dnp') if a in props]
     fe=c.find('fields'); flds={f.get('name'):(f.text or '') for f in (fe if fe is not None else [])}
     comps[c.get('ref')]=dict(attrs=attrs,path=(sp.get('tstamps') if sp is not None else '/')+ts.split()[0],sheetname=props.get('Sheetname',''),sheetfile=props.get('Sheetfile',''),value=c.findtext('value') or '',fields=flds)
-t=open(pcb).read(); linked=0; skipped=[]; nv=0; nf=0
+t=open(pcb).read(); linked=0; skipped=[]; nv=0; nf=0; nu=0
 SKIP_FIELDS={'Footprint','Datasheet','Description','Reference','Value'}
 def sub(m):
-    global linked,nv,nf
+    global linked,nv,nf,nu
     b=m.group(0); ref=re.search(r'\(property "Reference" "([^"]*)"',b).group(1); c=comps.get(ref)
     if not c: skipped.append(ref); return b
     b=re.sub(r'^\t\t\((?:path|sheetname|sheetfile) "[^"]*"\)\n','',b,flags=re.M)
@@ -45,6 +45,11 @@ def sub(m):
             else:
                 mm=re.search(r'^\t\t\((?:fp_line|fp_poly|fp_circle|fp_arc|fp_rect|fp_text|pad|model|embedded_fonts)',b,re.M); b=b[:mm.start()]+'\t\t(attr exclude_from_bom)\n'+b[mm.start():]
         have=set(re.findall(r'\(property "([^"]+)"',b))
+        for k,v in c['fields'].items():   # a field the footprint already has takes the symbol's value, as Update PCB does
+            if k in SKIP_FIELDS or k not in have: continue
+            new='(property "%s" "%s"'%(k,v.replace('"','\\"'))
+            old=re.search(r'\(property "%s" "(?:[^"\\]|\\.)*"'%re.escape(k),b)
+            if old and old.group(0)!=new: b=b[:old.start()]+new+b[old.end():]; nu+=1
         extra=''.join('\t\t(property "%s" "%s"\n\t\t\t(at 0 0 0)\n\t\t\t(layer "F.Fab")\n\t\t\t(hide yes)\n\t\t\t(uuid "%s")\n\t\t\t(effects\n\t\t\t\t(font\n\t\t\t\t\t(size 1.27 1.27)\n\t\t\t\t)\n\t\t\t)\n\t\t)\n'%(k,v.replace('"','\\"'),uuid.uuid4()) for k,v in c['fields'].items() if k not in SKIP_FIELDS and k not in have)
         if extra:
             last=list(re.finditer(r'^\t\t\(property "[^"]*" "(?:[^"\\]|\\.)*"\n.*?^\t\t\)\n',b,re.S|re.M))[-1]
@@ -52,4 +57,4 @@ def sub(m):
     return b
 t2=re.sub(r'^\t\(footprint "([^"]+)"\n.*?^\t\)\n',sub,t,flags=re.S|re.M)
 open(pcb,'w').write(t2)
-print('linked %d footprints; values set %d; fields added %d; no symbol: %s'%(linked,nv,nf,skipped))
+print('linked %d footprints; values set %d; fields added %d; fields updated %d; no symbol: %s'%(linked,nv,nf,nu,skipped))

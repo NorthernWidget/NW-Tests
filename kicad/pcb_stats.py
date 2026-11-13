@@ -14,7 +14,7 @@ segs=kids(p,'segment'); print('segments',len(segs),'by layer',collections.Counte
 print('arcs',len(kids(p,'arc')),'vias',len(kids(p,'via')))
 zs=kids(p,'zone'); print('zones',len(zs))
 for z in zs:
-    print('   net',kid(z,'net')[1],'layer',kid(z,'layer',kid(z,'layers'))[1:],'filled',len(kids(z,'filled_polygon')),'keepout' if kid(z,'keepout') else '')
+    print('   net',(kid(z,'net') or [0,'(none)'])[1],'layer',kid(z,'layer',kid(z,'layers'))[1:],'filled',len(kids(z,'filled_polygon')),'keepout' if kid(z,'keepout') else '')
 fps=kids(p,'footprint'); print('footprints',len(fps))
 gr=collections.Counter()
 for k in ('gr_line','gr_arc','gr_circle','gr_poly','gr_rect','gr_text'):
